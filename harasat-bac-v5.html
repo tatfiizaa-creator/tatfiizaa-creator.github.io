@@ -1,0 +1,2231 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>نظام تدبير حراسة الامتحانات 2025/2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --gold:#d4af37;--gold-pale:#fdf3c0;--gold-dark:#b8960c;
+  --green:#1a4731;--green-mid:#2d6a4f;--green-light:#40916c;
+  --blue:#1a3a5c;--blue-mid:#2563a8;--blue-light:#60a5fa;
+  --red:#c0392b;--orange:#e67e22;--purple:#7b1fa2;
+  --cream:#fdf8f0;--white:#fff;--gray:#9e9e9e;--gray-light:#f0ede6;
+  --dark:#1a1a1a;
+  --sh:0 2px 12px rgba(0,0,0,.1);--sh-lg:0 6px 30px rgba(0,0,0,.15);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Cairo',sans-serif;background:var(--cream);color:var(--dark);min-height:100vh}
+
+/* ── HEADER ── */
+.hdr{background:linear-gradient(135deg,var(--green),var(--green-mid) 55%,var(--green-light));
+  color:#fff;padding:13px 22px;display:flex;align-items:center;justify-content:space-between;
+  box-shadow:var(--sh-lg);position:sticky;top:0;z-index:100}
+.h-logo{display:flex;align-items:center;gap:11px}
+.h-emb{width:48px;height:48px;background:rgba(255,255,255,.13);border:2px solid var(--gold);
+  border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px}
+.h-title h1{font-family:'Amiri',serif;font-size:1.08rem;font-weight:700}
+.h-title p{font-size:.7rem;opacity:.8;margin-top:1px}
+.h-actions{display:flex;align-items:center;gap:8px}
+.save-dot{width:8px;height:8px;border-radius:50%;background:#f59e0b;display:inline-block;margin-left:4px}
+.save-dot.saved{background:#22c55e}
+
+/* ── TABS ── */
+.tabs{display:flex;background:#fff;border-bottom:3px solid var(--gold);overflow-x:auto;
+  box-shadow:0 2px 6px rgba(0,0,0,.06);position:sticky;top:74px;z-index:99}
+.tb{padding:10px 15px;border:none;background:none;font-family:'Cairo',sans-serif;font-size:.79rem;
+  font-weight:600;color:var(--gray);cursor:pointer;border-bottom:3px solid transparent;
+  margin-bottom:-3px;white-space:nowrap;transition:all .2s}
+.tb.on{color:var(--green);border-bottom-color:var(--green);background:rgba(26,71,49,.04)}
+.tb:hover{color:var(--green-mid)}
+
+/* ── MAIN ── */
+.main{padding:16px;max-width:1400px;margin:0 auto}
+.sec{display:none}.sec.on{display:block}
+
+/* ── CARD ── */
+.card{background:#fff;border-radius:10px;padding:16px;margin-bottom:13px;
+  box-shadow:var(--sh);border:1px solid rgba(212,175,55,.13)}
+.card-green{border-right:4px solid var(--green)}
+.card-blue{border-right:4px solid var(--blue-mid)}
+.card-orange{border-right:4px solid var(--orange)}
+.card-purple{border-right:4px solid var(--purple)}
+.card-red{border-right:4px solid var(--red)}
+.ct{font-size:.88rem;font-weight:700;color:var(--green);margin-bottom:11px;
+  padding-bottom:7px;border-bottom:2px solid var(--gold-pale);display:flex;align-items:center;gap:6px}
+.ct.blue{color:var(--blue-mid)}
+
+/* ── GRID ── */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+@media(max-width:900px){.g2,.g3,.g4{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.g2,.g3,.g4{grid-template-columns:1fr}}
+
+/* ── FORM ── */
+label{display:block;font-size:.75rem;font-weight:600;color:var(--green);margin-bottom:3px}
+label.bl{color:var(--blue-mid)}
+input,select,textarea{width:100%;padding:7px 10px;border:1.5px solid #ddd;border-radius:7px;
+  font-family:'Cairo',sans-serif;font-size:.82rem;background:var(--cream);outline:none;transition:border-color .2s}
+input:focus,select:focus,textarea:focus{border-color:var(--green-light);background:#fff}
+textarea{resize:vertical;min-height:60px}
+
+/* ── BUTTON ── */
+.btn{padding:7px 15px;border:none;border-radius:7px;font-family:'Cairo',sans-serif;
+  font-size:.8rem;font-weight:700;cursor:pointer;transition:all .2s;
+  display:inline-flex;align-items:center;gap:5px}
+.bg{background:var(--green);color:#fff}.bg:hover{background:var(--green-mid);transform:translateY(-1px)}
+.bb{background:var(--blue-mid);color:#fff}.bb:hover{background:var(--blue)}
+.bgold{background:var(--gold);color:var(--green)}.bgold:hover{background:var(--gold-dark)}
+.bred{background:var(--red);color:#fff}.bred:hover{background:#a93226}
+.borg{background:var(--orange);color:#fff}
+.bpur{background:var(--purple);color:#fff}
+.bgray{background:var(--gray-light);color:var(--dark)}
+.bou{background:transparent;border:2px solid var(--green);color:var(--green)}.bou:hover{background:var(--green);color:#fff}
+.bou-b{background:transparent;border:2px solid var(--blue-mid);color:var(--blue-mid)}.bou-b:hover{background:var(--blue-mid);color:#fff}
+.sm{padding:4px 9px;font-size:.73rem}
+.full{width:100%;justify-content:center}
+
+/* ── TABLE ── */
+.tw{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:.79rem}
+th{background:var(--green);color:#fff;padding:8px 10px;text-align:right;font-weight:600;font-size:.76rem}
+th.bth{background:var(--blue-mid)}
+td{padding:7px 10px;border-bottom:1px solid var(--gray-light);vertical-align:middle}
+tr:hover td{background:rgba(212,175,55,.05)}
+tr:nth-child(even) td{background:#fafaf8}
+
+/* ── BADGE ── */
+.badge{display:inline-block;padding:2px 8px;border-radius:11px;font-size:.69rem;font-weight:700}
+.bg-green{background:#e8f5e9;color:#2e7d32}.bg-gold{background:#fff9c4;color:#f57f17}
+.bg-red{background:#ffebee;color:var(--red)}.bg-blue{background:#e3f2fd;color:#0d47a1}
+.bg-orange{background:#fff3e0;color:#e65100}.bg-purple{background:#f3e5f5;color:#6a1b9a}
+.bg-gray{background:#f5f5f5;color:#555}
+
+/* ── STAT ── */
+.stat{border-radius:9px;padding:13px;text-align:center;color:#fff}
+.sg{background:linear-gradient(135deg,var(--green),var(--green-mid))}
+.sb{background:linear-gradient(135deg,var(--blue),var(--blue-mid))}
+.sgold{background:linear-gradient(135deg,var(--gold-dark),var(--gold));color:var(--green)}
+.sred{background:linear-gradient(135deg,#922b21,var(--red))}
+.spur{background:linear-gradient(135deg,#4a148c,var(--purple))}
+.stat-n{font-size:1.7rem;font-weight:900;line-height:1}
+.stat-l{font-size:.68rem;opacity:.85;margin-top:2px}
+
+/* ── SESSION PAGE ── */
+.sess-page{border:2px solid #e0d9c8;border-radius:10px;overflow:hidden;margin-bottom:16px}
+.sess-ph{background:linear-gradient(90deg,var(--green),var(--green-mid));color:#fff;
+  padding:10px 16px;display:flex;align-items:center;justify-content:space-between}
+.sess-ph.blue{background:linear-gradient(90deg,var(--blue),var(--blue-mid))}
+.sess-pb{padding:14px}
+.room-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
+.room-box{border:2px solid #222;border-radius:5px;overflow:hidden}
+.room-bh{background:#222;color:#fff;text-align:center;padding:6px;font-weight:700;font-size:.8rem}
+.room-bb{padding:8px;text-align:center;font-size:.79rem;line-height:1.9;min-height:52px}
+.tchip{display:inline-block;padding:2px 9px;border-radius:15px;font-size:.72rem;font-weight:600;margin:2px;cursor:text;outline:none}
+.tchip-g{background:var(--green);color:#fff}
+.tchip-b{background:var(--blue-mid);color:#fff}
+.tchip-r{background:var(--red);color:#fff}
+.tchip-p{background:var(--purple);color:#fff}
+.tchip-o{background:var(--orange);color:#fff}
+
+/* ── ALERT ── */
+.alert{padding:8px 12px;border-radius:7px;margin-bottom:10px;font-size:.79rem;font-weight:600;display:flex;align-items:center;gap:6px}
+.al-ok{background:#e8f5e9;color:#2e7d32;border:1px solid #a5d6a7}
+.al-warn{background:#fff3e0;color:#e65100;border:1px solid #ffcc80}
+.al-info{background:#e3f2fd;color:#0d47a1;border:1px solid #90caf9}
+.al-save{background:#f3e5f5;color:#6a1b9a;border:1px solid #ce93d8}
+
+/* ── TOGGLE ── */
+.tgl-lbl{display:flex;align-items:center;gap:8px;cursor:pointer;margin-top:6px;font-size:.81rem}
+.tgl{width:38px;height:20px;background:#ccc;border-radius:10px;position:relative;transition:background .2s;flex-shrink:0}
+.tgl::after{content:'';position:absolute;top:3px;right:3px;width:14px;height:14px;background:#fff;border-radius:50%;transition:transform .2s}
+.tgl.on{background:var(--green)}.tgl.on::after{transform:translateX(-18px)}
+
+/* ── MISC ── */
+.divider{height:1px;background:var(--gold-pale);margin:11px 0}
+.tsm{font-size:.72rem;color:var(--gray)}
+.fr{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.sp{flex:1}
+.mt1{margin-top:7px}.mt2{margin-top:13px}
+.ph{margin-bottom:14px}
+.ph h2{font-size:1.08rem;font-weight:700;color:var(--green);margin-bottom:2px}
+.ph p{font-size:.75rem;color:var(--gray)}
+.sep{height:2px;background:linear-gradient(90deg,var(--green),transparent);margin:18px 0;border-radius:2px}
+.sep.blue{background:linear-gradient(90deg,var(--blue-mid),transparent)}
+
+/* ── UPLOAD ZONE ── */
+.upz{border:2px dashed var(--green-light);border-radius:9px;padding:18px;text-align:center;
+  background:rgba(64,145,108,.04);cursor:pointer;transition:all .2s}
+.upz:hover{border-color:var(--green);background:rgba(64,145,108,.08)}
+.upz input[type=file]{display:none}
+
+/* ── MODAL ── */
+.modal-bg{display:none;position:fixed;top:0;left:0;width:100%;height:100%;
+  background:rgba(0,0,0,.5);z-index:200;align-items:center;justify-content:center}
+.modal-bg.open{display:flex}
+.modal{background:#fff;border-radius:12px;padding:24px;width:min(520px,95vw);
+  max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.modal-title{font-size:1rem;font-weight:700;color:var(--green);margin-bottom:16px;
+  padding-bottom:10px;border-bottom:2px solid var(--gold-pale)}
+
+/* ── CONVOCATION PRINT ── */
+.conv-wrap{border:2px solid var(--gold);border-radius:10px;padding:22px;margin-bottom:14px;background:#fff}
+@media print{
+  body{background:#fff}
+  .hdr,.tabs,.main .card:not(.print-target),.ph{display:none!important}
+  .print-target{display:block!important}
+  * {-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="hdr">
+  <div class="h-logo">
+    <div class="h-emb">🏫</div>
+    <div class="h-title">
+      <h1 id="hdrSchool">الثانوية التأهيلية الجديدة</h1>
+      <p>نظام تدبير حراسة الامتحانات | 2025/2026</p>
+    </div>
+  </div>
+  <div class="h-actions">
+    <span class="tsm" id="saveLabel"><span class="save-dot" id="saveDot"></span> غير محفوظ</span>
+    <button class="btn bgold sm" onclick="saveAll()">💾 حفظ</button>
+    <button class="btn bgray sm" onclick="exportBackup()">📤 نسخة احتياطية</button>
+    <button class="btn bgray sm" onclick="$('importFile').click()">📥 استيراد</button>
+    <input type="file" id="importFile" accept=".json" style="display:none" onchange="importBackup(event)">
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tabs">
+  <button class="tb on" onclick="showTab('t0')">🏠 الرئيسية</button>
+  <button class="tb" onclick="showTab('t1')">⚙️ الإعداد</button>
+  <button class="tb" onclick="showTab('t2')">👥 الأساتذة</button>
+  <button class="tb" onclick="showTab('t3')">🏛️ القاعات</button>
+  <button class="tb" onclick="showTab('t4')">📅 البرنامج</button>
+  <button class="tb" onclick="showTab('t5')">🔀 التوزيع</button>
+  <button class="tb" onclick="showTab('t6')">📋 صفحات الحصص</button>
+  <button class="tb" onclick="showTab('t7')">🔴 الاحتياط</button>
+  <button class="tb" onclick="showTab('t8')">📄 الاستدعاءات</button>
+  <button class="tb" onclick="showTab('t9')">📊 جدول القاعات</button>
+  <button class="tb" onclick="showTab('t9')">📊 جدول الأساتذة</button>
+</div>
+
+<div class="main">
+
+<!-- ══ T0 HOME ══ -->
+<div id="t0" class="sec on">
+  <div class="ph"><h2>🏠 لوحة القيادة</h2><p>نظرة عامة على حالة النظام</p></div>
+  <div class="g4" style="margin-bottom:14px">
+    <div class="stat sg"><div class="stat-n" id="dashT">0</div><div class="stat-l">أستاذ مسجل</div></div>
+    <div class="stat sb"><div class="stat-n" id="dashR">0</div><div class="stat-l">قاعة (وطني+جهوي)</div></div>
+    <div class="stat sgold"><div class="stat-n" id="dashE">0</div><div class="stat-l">حصة امتحان</div></div>
+    <div class="stat sred"><div class="stat-n" id="dashD">0</div><div class="stat-l">توزيع مكتمل</div></div>
+  </div>
+
+  <div class="g2">
+    <div class="card card-green">
+      <div class="ct">⚡ إجراءات سريعة</div>
+      <div style="display:grid;gap:8px">
+        <button class="btn bg full" onclick="showTab('t2');openTeacherModal()">➕ إضافة أستاذ</button>
+        <button class="btn bb full" onclick="showTab('t3')">➕ إضافة قاعة</button>
+        <button class="btn borg full" onclick="showTab('t4');openExamModal()">➕ إضافة امتحان</button>
+        <button class="btn bgold full" onclick="showTab('t5');runFullDist()">⚡ توزيع تلقائي شامل</button>
+        <button class="btn bpur full" onclick="showTab('t8')">🖨️ طباعة الاستدعاءات</button>
+      </div>
+    </div>
+    <div class="card card-blue">
+      <div class="ct blue">📊 حالة التوزيع</div>
+      <div id="dashStatus" style="color:var(--gray);text-align:center;padding:20px">
+        أضف الأساتذة والقاعات والبرنامج للبدء
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ct">ℹ️ دليل الاستخدام السريع</div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;font-size:.78rem">
+      <div style="text-align:center;padding:10px;background:var(--cream);border-radius:8px">
+        <div style="font-size:1.5rem">1️⃣</div>
+        <div style="font-weight:700;color:var(--green);margin:4px 0">الإعداد</div>
+        <div>أدخل معلومات المؤسسة والمدير</div>
+      </div>
+      <div style="text-align:center;padding:10px;background:var(--cream);border-radius:8px">
+        <div style="font-size:1.5rem">2️⃣</div>
+        <div style="font-weight:700;color:var(--green);margin:4px 0">الأساتذة والقاعات</div>
+        <div>أضف القوائم أو استورد من Excel</div>
+      </div>
+      <div style="text-align:center;padding:10px;background:var(--cream);border-radius:8px">
+        <div style="font-size:1.5rem">3️⃣</div>
+        <div style="font-weight:700;color:var(--green);margin:4px 0">البرنامج</div>
+        <div>حدد مواد وتواريخ كل حصة</div>
+      </div>
+      <div style="text-align:center;padding:10px;background:var(--cream);border-radius:8px">
+        <div style="font-size:1.5rem">4️⃣</div>
+        <div style="font-weight:700;color:var(--green);margin:4px 0">التوزيع والطباعة</div>
+        <div>وزّع تلقائياً ثم اطبع الاستدعاءات</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ T1 SETTINGS ══ -->
+<div id="t1" class="sec">
+  <div class="ph"><h2>⚙️ إعداد المؤسسة</h2><p>المعلومات الرسمية — تظهر في جميع الوثائق</p></div>
+  <div class="g2">
+    <div class="card card-green">
+      <div class="ct">🏫 المؤسسة</div>
+      <div style="display:grid;gap:9px">
+        <div><label>اسم المؤسسة</label><input id="cfgSchool" value="الثانوية التأهيلية الجديدة" oninput="markDirty();$('hdrSchool').textContent=this.value"></div>
+        <div><label>المدينة</label><input id="cfgCity" value="الجديدة" oninput="markDirty()"></div>
+        <div><label>اسم المدير(ة)</label><input id="cfgDir" placeholder="الاسم الكامل" oninput="markDirty()"></div>
+        <div><label>رمز المركز</label><input id="cfgCode" placeholder="J001" oninput="markDirty()"></div>
+        <div><label>الهاتف</label><input id="cfgPhone" value="0523000000" oninput="markDirty()"></div>
+      </div>
+    </div>
+    <div class="card card-blue">
+      <div class="ct blue">📋 الدورة</div>
+      <div style="display:grid;gap:9px">
+        <div><label>الدورة الامتحانية</label>
+          <select id="cfgSess" oninput="markDirty()">
+            <option>الدورة العادية — يونيو 2026</option>
+            <option>الدورة الاستدراكية — يوليوز 2026</option>
+            <option>الدورة العادية — يونيو 2025</option>
+            <option>الدورة الاستدراكية — يوليوز 2025</option>
+          </select>
+        </div>
+        <div><label>نوع الامتحان</label>
+          <select id="cfgType" oninput="markDirty()">
+            <option value="both">وطني + جهوي</option>
+            <option value="nat">وطني فقط</option>
+            <option value="reg">جهوي فقط</option>
+          </select>
+        </div>
+        <div><label>الأكاديمية الجهوية</label><input id="cfgAcad" value="الدار البيضاء - سطات" oninput="markDirty()"></div>
+        <div><label>المديرية الإقليمية</label><input id="cfgProv" value="الجديدة" oninput="markDirty()"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card card-orange">
+    <div class="ct" style="color:var(--orange)">📐 قواعد التوزيع</div>
+    <div class="g3">
+      <div><label>حراس لكل قاعة</label><input type="number" id="cfgG" value="2" min="1" max="5" oninput="markDirty()"></div>
+      <div><label>حد أقصى / يوم / أستاذ</label><input type="number" id="cfgMaxDay" value="2" min="1" max="6" oninput="markDirty()"></div>
+      <div><label>حد أقصى إجمالي / أستاذ</label><input type="number" id="cfgMaxTot" value="8" min="1" max="20" oninput="markDirty()"></div>
+      <div><label>عدد الاحتياط / حصة</label><input type="number" id="cfgRes" value="6" min="1" max="20" oninput="markDirty()"></div>
+      <div><label>عدد المداومين / قاعة</label><input type="number" id="cfgSup" value="1" min="1" max="3" oninput="markDirty()"></div>
+    </div>
+    <div class="tgl-lbl"><div class="tgl on" id="tNoOwn" onclick="this.classList.toggle('on');markDirty()"></div><span>🚫 الأستاذ لا يحرس مادته ولا شعبتها</span></div>
+    <div class="tgl-lbl"><div class="tgl on" id="tBalance" onclick="this.classList.toggle('on');markDirty()"></div><span>⚖️ توزيع متوازن (الأقل حراسة أولاً)</span></div>
+    <div class="tgl-lbl"><div class="tgl on" id="tShuffle" onclick="this.classList.toggle('on');markDirty()"></div><span>🔀 خلط عشوائي</span></div>
+    <div class="tgl-lbl"><div class="tgl" id="tAutoRes" onclick="this.classList.toggle('on');markDirty()"></div><span>🔴 توليد الاحتياط تلقائياً بعد كل توزيع</span></div>
+  </div>
+
+  <div class="card card-purple">
+    <div class="ct" style="color:var(--purple)">✏️ تخصيص الاستدعاء</div>
+    <div style="display:grid;gap:9px">
+      <div><label>رقم الاستدعاء</label><input id="cfgInvNum" value="108" oninput="markDirty()"></div>
+      <div><label>تاريخ الاستدعاء</label><input id="cfgInvDate" placeholder="19 ماي 2025" oninput="markDirty()"></div>
+      <div><label>المرجع</label><input id="cfgInvRef" value="القرار الوزاري بشأن دفتر مساطر امتحانات البكالوريا" oninput="markDirty()"></div>
+      <div><label>نص الموضوع</label>
+        <input id="cfgInvSubject" value="الموضوع: تكليف بمهمة المراقبة التربوية"></div>
+      <div><label>نص العرض (المقدمة)</label>
+        <textarea id="cfgInvBody" rows="2">يُشرفني أن أُخبركم بأنه تم تكليفكم بمهمة المراقبة التربوية خلال الدورة الامتحانية، وذلك وفق البرمجة التالية:</textarea>
+      </div>
+      <div><label>الخاتمة</label>
+        <textarea id="cfgInvFoot" rows="2">واثقٌ من قيامكم بالمهمة المسندة إليكم بكل جدية وشعور بالمسؤولية.
+مع التحيات.</textarea>
+      </div>
+      <div><label>ملاحظة ثابتة أسفل الاستدعاء</label>
+        <input id="cfgInvNote" value="يُرجى الحضور نصف ساعة قبل موعد الامتحان. يُمنع الهاتف أثناء الحراسة."></div>
+    </div>
+    <div class="g3 mt1">
+      <div><label>رقم الاستدعاء</label><input id="cfgInvNum" value="108" placeholder="108" oninput="markDirty()"></div>
+      <div><label>تاريخ الاستدعاء</label><input type="date" id="cfgInvDate" oninput="markDirty()"></div>
+      <div><label>المدير الإقليمي (الاسم)</label><input id="cfgRegDir" placeholder="اسم المدير الإقليمي" oninput="markDirty()"></div>
+    </div>
+    <div class="mt1"><label>المرجع</label>
+      <input id="cfgInvRef" value="القرار الوزاري بشأن دفتر مساطر امتحانات البكالوريا" oninput="markDirty()"></div>
+  </div>
+</div>
+
+  <button class="btn bg full mt2" onclick="saveAll()">💾 حفظ الإعدادات</button>
+</div>
+
+<!-- ══ T2 TEACHERS ══ -->
+<div id="t2" class="sec">
+  <div class="ph"><h2>👥 الأساتذة</h2><p>إضافة — تعديل — حذف — استيراد</p></div>
+
+  <div class="card">
+    <div class="fr">
+      <button class="btn bg" onclick="openTeacherModal()">➕ إضافة أستاذ</button>
+      <button class="btn bb" onclick="$('tFile').click()">📂 استيراد Excel/CSV</button>
+      <input type="file" id="tFile" accept=".xlsx,.xls,.csv,.txt" style="display:none" onchange="importTeacherFile(event)">
+      <button class="btn bgray" onclick="openPasteModal()">📋 لصق الأسماء</button>
+      <span class="sp"></span>
+      <button class="btn bgold sm" onclick="exportTeachersCSV()">💾 تصدير CSV</button>
+      <button class="btn bred sm" onclick="clearTeachers()">🗑️ مسح الكل</button>
+    </div>
+  </div>
+
+  <div class="g4" style="margin-bottom:12px">
+    <div class="stat sg"><div class="stat-n" id="stT">0</div><div class="stat-l">إجمالي</div></div>
+    <div class="stat sgold"><div class="stat-n" id="stA">0</div><div class="stat-l">متاحون</div></div>
+    <div class="stat sg"><div class="stat-n" id="stM">0</div><div class="stat-l">ذكور</div></div>
+    <div class="stat sb"><div class="stat-n" id="stF">0</div><div class="stat-l">إناث</div></div>
+  </div>
+
+  <div class="card">
+    <div id="alertT"></div>
+    <div class="tw">
+      <table>
+        <thead><tr><th style="width:36px">#</th><th>الاسم الكامل</th><th>المادة</th><th>الشعبة</th><th>التأجير</th><th>الجنس</th><th>نوع الحراسة</th><th>وطني</th><th>جهوي</th><th>المجموع</th><th style="width:90px">إجراء</th></tr></thead>
+        <tbody id="tBody"><tr><td colspan="11" style="text-align:center;color:var(--gray);padding:20px">لا يوجد أساتذة — اضغط "إضافة أستاذ"</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ══ T3 ROOMS ══ -->
+<div id="t3" class="sec">
+  <div class="ph"><h2>🏛️ القاعات</h2><p>قاعات الشعب العلمية والأدبية — وطني وجهوي</p></div>
+
+  <div class="g2">
+    <!-- NAT -->
+    <div class="card card-green">
+      <div class="ct">🇲🇦 قاعات الامتحان الوطني</div>
+      <div style="display:grid;gap:8px">
+        <div><label>اسم القاعة</label><input id="rnN" placeholder="القاعة 01" onkeydown="if(event.key==='Enter')addRoom('nat')"></div>
+        <div class="g2">
+          <div><label>المترشحون</label><input type="number" id="rnC" value="30" min="1"></div>
+          <div><label>نوع الشعبة</label>
+            <select id="rnBranch">
+              <option value="علمية">علمية (علوم/رياضيات/فيزياء...)</option>
+              <option value="أدبية">أدبية (آداب/فلسفة/لغات...)</option>
+              <option value="مختلطة">مختلطة</option>
+            </select>
+          </div>
+        </div>
+        <div><label>المادة المُمتحَنة</label><input id="rnSubj" placeholder="اختياري — الرياضيات..."></div>
+        <button class="btn bg full" onclick="addRoom('nat')">➕ إضافة قاعة وطني</button>
+      </div>
+      <div class="divider"></div>
+      <div style="font-size:.77rem;font-weight:700;color:var(--green);margin-bottom:7px">⚡ توليد تلقائي</div>
+      <div class="g3">
+        <div><label>من</label><input type="number" id="rnFrom" value="1"></div>
+        <div><label>إلى</label><input type="number" id="rnTo" value="8"></div>
+        <div><label>مترشحون</label><input type="number" id="rnDef" value="30"></div>
+      </div>
+      <div class="g2 mt1">
+        <div><label>البادئة</label><input id="rnPfx" value="القاعة "></div>
+        <div><label>الشعبة</label>
+          <select id="rnGenBranch">
+            <option value="علمية">علمية</option>
+            <option value="أدبية">أدبية</option>
+            <option value="مختلطة">مختلطة</option>
+          </select>
+        </div>
+      </div>
+      <button class="btn bgold full mt1" onclick="genRooms('nat')">🚀 توليد</button>
+    </div>
+
+    <!-- REG -->
+    <div class="card card-blue">
+      <div class="ct blue">🏙️ قاعات الامتحان الجهوي</div>
+      <div style="display:grid;gap:8px">
+        <div><label class="bl">اسم القاعة</label><input id="rrN" placeholder="قاعة ج-01" onkeydown="if(event.key==='Enter')addRoom('reg')"></div>
+        <div class="g2">
+          <div><label class="bl">المترشحون</label><input type="number" id="rrC" value="30" min="1"></div>
+          <div><label class="bl">نوع الشعبة</label>
+            <select id="rrBranch">
+              <option value="علمية">علمية</option>
+              <option value="أدبية">أدبية</option>
+              <option value="مختلطة">مختلطة</option>
+            </select>
+          </div>
+        </div>
+        <div><label class="bl">المادة المُمتحَنة</label><input id="rrSubj" placeholder="اختياري"></div>
+        <button class="btn bb full" onclick="addRoom('reg')">➕ إضافة قاعة جهوي</button>
+      </div>
+      <div class="divider"></div>
+      <div style="font-size:.77rem;font-weight:700;color:var(--blue-mid);margin-bottom:7px">⚡ توليد تلقائي</div>
+      <div class="g3">
+        <div><label class="bl">من</label><input type="number" id="rrFrom" value="1"></div>
+        <div><label class="bl">إلى</label><input type="number" id="rrTo" value="6"></div>
+        <div><label class="bl">مترشحون</label><input type="number" id="rrDef" value="30"></div>
+      </div>
+      <div class="g2 mt1">
+        <div><label class="bl">البادئة</label><input id="rrPfx" value="قاعة ج-"></div>
+        <div><label class="bl">الشعبة</label>
+          <select id="rrGenBranch">
+            <option value="علمية">علمية</option>
+            <option value="أدبية">أدبية</option>
+            <option value="مختلطة">مختلطة</option>
+          </select>
+        </div>
+      </div>
+      <button class="btn bgold full mt1" onclick="genRooms('reg')">🚀 توليد</button>
+    </div>
+  </div>
+
+  <div class="g4" style="margin-bottom:12px">
+    <div class="stat sg"><div class="stat-n" id="stNR">0</div><div class="stat-l">قاعات وطني</div></div>
+    <div class="stat sb"><div class="stat-n" id="stRR">0</div><div class="stat-l">قاعات جهوي</div></div>
+    <div class="stat sgold"><div class="stat-n" id="stNG">0</div><div class="stat-l">حارس/حصة وطني</div></div>
+    <div class="stat sgold"><div class="stat-n" id="stRG">0</div><div class="stat-l">حارس/حصة جهوي</div></div>
+  </div>
+
+  <div class="g2">
+    <div class="card card-green">
+      <div class="fr ct"><span>🇲🇦 قاعات الوطني</span><span class="sp"></span>
+        <button class="btn bred sm" onclick="clearRooms('nat')">🗑️ مسح</button></div>
+      <div class="tw"><table>
+        <thead><tr><th>#</th><th>القاعة</th><th>المترشحون</th><th>الشعبة</th><th>المادة</th><th>إجراء</th></tr></thead>
+        <tbody id="natRTb"></tbody></table></div>
+    </div>
+    <div class="card card-blue">
+      <div class="fr ct blue"><span>🏙️ قاعات الجهوي</span><span class="sp"></span>
+        <button class="btn bred sm" onclick="clearRooms('reg')">🗑️ مسح</button></div>
+      <div class="tw"><table>
+        <thead><tr><th class="bth">#</th><th class="bth">القاعة</th><th class="bth">المترشحون</th><th class="bth">الشعبة</th><th class="bth">المادة</th><th class="bth">إجراء</th></tr></thead>
+        <tbody id="regRTb"></tbody></table></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ T4 EXAM PROGRAM ══ -->
+<div id="t4" class="sec">
+  <div class="ph"><h2>📅 برنامج الامتحانات</h2><p>كل حصة = تاريخ + فترة + مادة + شعبة + قاعات</p></div>
+  <div class="card">
+    <div class="fr">
+      <button class="btn bg" onclick="openExamModal()">➕ إضافة حصة امتحان</button>
+      <button class="btn bgray" onclick="loadDefaultProgram()">🔄 برنامج افتراضي</button>
+      <span class="sp"></span>
+      <button class="btn bred sm" onclick="clearExams()">🗑️ مسح الكل</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div id="alertE"></div>
+    <div class="tw">
+      <table>
+        <thead><tr>
+          <th>#</th><th>نوع</th><th>اليوم</th><th>التاريخ</th>
+          <th>الفترة</th><th>التوقيت</th><th>المادة</th><th>الشعبة</th>
+          <th>حراس مطلوبون</th><th>إجراء</th>
+        </tr></thead>
+        <tbody id="examTb"><tr><td colspan="10" style="text-align:center;color:var(--gray);padding:20px">لا توجد حصص — اضغط "إضافة حصة"</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ══ T5 DISTRIBUTION ══ -->
+<div id="t5" class="sec">
+  <div class="ph"><h2>🔀 التوزيع التلقائي</h2><p>يحترم: التخصص + الشعبة + التوازن + الحد الأقصى</p></div>
+  <div id="alertD"></div>
+
+  <div class="card">
+    <div class="fr" style="gap:10px">
+      <button class="btn bg" onclick="runFullDist()">⚡ توزيع شامل</button>
+      <button class="btn bou" onclick="runDist('nat')">🇲🇦 وطني فقط</button>
+      <button class="btn bou-b" onclick="runDist('reg')">🏙️ جهوي فقط</button>
+      <span class="sp"></span>
+      <button class="btn bg sm" onclick="saveAll()">💾 حفظ</button>
+      <button class="btn bgold sm" onclick="exportDistCSV()">📊 تصدير CSV</button>
+      <button class="btn bgray sm" onclick="printFullDist()">🖨️ طباعة الجدول</button>
+    </div>
+    <div class="mt1" id="distStats" style="color:var(--gray);font-size:.78rem"></div>
+  </div>
+
+  <div id="distResult"><div class="card" style="text-align:center;color:var(--gray);padding:24px">اضغط "توزيع شامل" للبدء — النتيجة ستظهر هنا</div></div>
+</div>
+
+<!-- ══ T6 SESSION PAGES ══ -->
+<div id="t6" class="sec">
+  <div class="ph"><h2>📋 صفحات الحصص</h2><p>كل حصة بقاعاتها وحراسها — قابلة للتعديل المباشر</p></div>
+  <div class="card">
+    <div class="fr">
+      <select id="sessPageSel" style="max-width:350px" onchange="renderSessPage()">
+        <option value="">— اختر حصة —</option>
+      </select>
+      <button class="btn bg" onclick="renderSessPage()">🔄 تحديث</button>
+      <span class="sp"></span>
+      <button class="btn bgold" onclick="printSessPage()">🖨️ طباعة هذه الحصة</button>
+      <button class="btn bgray" onclick="printAllSessPages()">🖨️ طباعة الكل</button>
+    </div>
+  </div>
+  <div id="sessPageContent"><div class="card" style="text-align:center;color:var(--gray);padding:24px">اختر حصة من القائمة أعلاه</div></div>
+</div>
+
+<!-- ══ T7 RESERVE ══ -->
+<div id="t7" class="sec">
+  <div class="ph"><h2>🔴 الاحتياط</h2><p>قائمة الاحتياط لكل حصة — بتنسيق الوثيقة الرسمية</p></div>
+  <div class="card">
+    <div class="fr">
+      <button class="btn bg" onclick="buildAllReserves()">🔄 توليد تلقائي للكل</button>
+      <span class="sp"></span>
+      <select id="resSel" style="max-width:300px" onchange="renderResPage()">
+        <option value="">— اختر حصة —</option>
+      </select>
+      <button class="btn bgold" onclick="printResSel()">🖨️ طباعة المحددة</button>
+      <button class="btn bgray" onclick="printAllRes()">🖨️ طباعة الكل</button>
+    </div>
+  </div>
+  <div id="resContent"><div class="card" style="text-align:center;color:var(--gray);padding:24px">اضغط "توليد تلقائي" بعد التوزيع</div></div>
+</div>
+
+<!-- ══ T8 INVITATIONS ══ -->
+<div id="t8" class="sec">
+  <div class="ph"><h2>📄 الاستدعاءات</h2><p>استدعاء رسمي لكل أستاذ — كامل وقابل للتعديل</p></div>
+  <div class="card">
+    <div class="g3">
+      <div>
+        <label>اختر أستاذاً</label>
+        <select id="invSel" onchange="previewInv()"><option value="">— كل الأساتذة —</option></select>
+      </div>
+      <div>
+        <label>ملاحظة إضافية</label>
+        <input id="invExNote" placeholder="ملاحظة خاصة..." oninput="previewInv()">
+      </div>
+      <div style="display:flex;align-items:flex-end;gap:7px">
+        <button class="btn bg full" onclick="printAllInv()">🖨️ طباعة الكل</button>
+        <button class="btn bgold full" onclick="printOneInv()">📄 طباعة المحدد</button>
+      </div>
+    </div>
+  </div>
+  <div id="invPrev"></div>
+</div>
+
+<!-- ══ T9 TEACHER GRID (like image 2) ══ -->
+<div id="t9" class="sec">
+  <div class="ph"><h2>📊 جدول الأساتذة × الأيام</h2><p>نظرة شاملة على توزيع كل الأساتذة كما في تطبيق أيت حمو</p></div>
+  <div class="card">
+    <div class="fr">
+      <button class="btn bg" onclick="renderTeacherGrid()">🔄 تحديث الجدول</button>
+      <button class="btn bgold" onclick="printTeacherGrid()">🖨️ طباعة الجدول</button>
+      <button class="btn bgray" onclick="exportTeacherGridCSV()">💾 تصدير CSV</button>
+    </div>
+  </div>
+  <div id="teacherGridContent"><div class="card" style="text-align:center;color:var(--gray);padding:20px">اضغط "تحديث الجدول" بعد التوزيع</div></div>
+</div>
+
+<!-- ══ T9 ROOMS SCHEDULE (like image 2) ══ -->
+<div id="t9" class="sec">
+  <div class="ph"><h2>📊 جدول القاعات × الأيام</h2><p>نظرة شاملة — كل قاعة × كل يوم × صباح ومساء — مثل تطبيق أيت حمو</p></div>
+  <div class="card">
+    <div class="fr">
+      <button class="btn bg" onclick="buildRoomsTable()">🔄 توليد الجدول</button>
+      <span class="sp"></span>
+      <button class="btn bgold" onclick="printRoomsTable()">🖨️ طباعة</button>
+      <button class="btn bgray" onclick="exportRoomsTableCSV()">💾 تصدير CSV</button>
+    </div>
+  </div>
+  <div id="roomsTableContent"><div class="card" style="text-align:center;color:var(--gray);padding:20px">اضغط "توليد الجدول" بعد إجراء التوزيع</div></div>
+</div>
+
+</div><!-- /main -->
+
+<!-- ══ MODALS ══ -->
+<!-- Teacher Modal -->
+<div id="teacherModal" class="modal-bg">
+  <div class="modal">
+    <div class="modal-title">👤 <span id="tmTitle">إضافة أستاذ</span></div>
+    <input type="hidden" id="tmId">
+    <div style="display:grid;gap:10px">
+      <div><label>الاسم الكامل *</label><input id="tmName" placeholder="الاسم الكامل للأستاذ"></div>
+      <div class="g2">
+        <div><label>رقم التأجير</label><input id="tmMat" placeholder="اختياري"></div>
+        <div><label>الجنس</label><select id="tmGen"><option value="ذكر">ذكر</option><option value="أنثى">أنثى</option></select></div>
+      </div>
+      <div class="g2">
+        <div><label>المادة</label><input id="tmSubj" placeholder="الرياضيات..."></div>
+        <div><label>تخصص الشعبة</label>
+          <select id="tmBranch">
+            <option value="علمية">علمية (رياضيات/فيزياء/SVT...)</option>
+            <option value="أدبية">أدبية (آداب/فلسفة/لغات...)</option>
+            <option value="مشترك">مشترك (يمكن في أي قاعة)</option>
+          </select>
+        </div>
+      </div>
+      <div><label>نوع الحراسة</label>
+        <select id="tmType">
+          <option value="وطني+جهوي">وطني + جهوي</option>
+          <option value="وطني">وطني فقط</option>
+          <option value="جهوي">جهوي فقط</option>
+          <option value="معفى">معفى</option>
+        </select>
+      </div>
+      <div><label>ملاحظات</label><input id="tmNote" placeholder="اختياري"></div>
+    </div>
+    <div class="fr mt2">
+      <button class="btn bg full" onclick="saveTeacher()">✅ حفظ</button>
+      <button class="btn bgray full" onclick="closeModal('teacherModal')">إلغاء</button>
+    </div>
+  </div>
+</div>
+
+<!-- Exam Modal -->
+<div id="examModal" class="modal-bg">
+  <div class="modal">
+    <div class="modal-title">📅 <span id="emTitle">إضافة حصة امتحان</span></div>
+    <input type="hidden" id="emId">
+    <div style="display:grid;gap:10px">
+      <div class="g2">
+        <div><label>نوع الامتحان</label>
+          <select id="emType">
+            <option value="nat">🇲🇦 وطني</option>
+            <option value="reg">🏙️ جهوي</option>
+          </select>
+        </div>
+        <div><label>رقم اليوم / التسمية</label><input id="emDay" placeholder="اليوم الأول"></div>
+      </div>
+      <div class="g2">
+        <div><label>التاريخ</label><input type="date" id="emDate"></div>
+        <div><label>الفترة</label>
+          <select id="emPeriod">
+            <option value="صباحية">صباحية</option>
+            <option value="مسائية">مسائية</option>
+          </select>
+        </div>
+      </div>
+      <div class="g2">
+        <div><label>التوقيت من</label><input type="time" id="emFrom" value="08:00"></div>
+        <div><label>إلى</label><input type="time" id="emTo" value="10:00"></div>
+      </div>
+      <div><label>المادة / المواد المُمتحَنة</label><input id="emSubj" placeholder="الرياضيات / الفيزياء..."></div>
+      <div><label>الشعبة المستهدفة</label>
+        <select id="emBranch">
+          <option value="علمية">علمية</option>
+          <option value="أدبية">أدبية</option>
+          <option value="كلتاهما">كلتاهما</option>
+        </select>
+      </div>
+    </div>
+    <div class="fr mt2">
+      <button class="btn bg full" onclick="saveExam()">✅ حفظ</button>
+      <button class="btn bgray full" onclick="closeModal('examModal')">إلغاء</button>
+    </div>
+  </div>
+</div>
+
+<!-- Paste Modal -->
+<div id="pasteModal" class="modal-bg">
+  <div class="modal">
+    <div class="modal-title">📋 لصق أسماء الأساتذة</div>
+    <div class="alert al-info" style="margin-bottom:10px">كل سطر = أستاذ واحد. يمكن كتابة: الاسم، المادة، الجنس (مفصولة بفاصلة)</div>
+    <textarea id="pasteArea" rows="8" placeholder="أحمد بنسالم, الرياضيات, ذكر&#10;فاطمة العلوي, الفيزياء, أنثى&#10;يوسف الكريمي, الفلسفة, ذكر"></textarea>
+    <div class="fr mt2">
+      <button class="btn bg full" onclick="importPasted()">📥 استيراد</button>
+      <button class="btn bgray full" onclick="closeModal('pasteModal')">إلغاء</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ════════════════════════════════════════════════
+// HELPERS
+// ════════════════════════════════════════════════
+const $=x=>document.getElementById(x);
+const v=x=>$(x)?$(x).value:'';
+const setV=(x,val)=>{if($(x))$(x).value=val};
+
+function alert2(id,msg,cls='al-ok'){
+  const el=$(id); if(!el) return;
+  el.innerHTML=`<div class="alert ${cls}">${msg}</div>`;
+  setTimeout(()=>el.innerHTML='',6000);
+}
+function fmtDate(d){
+  if(!d) return '—';
+  try{const p=d.split('-');return `${p[2]}/${p[1]}/${p[0]}`;}catch(e){return d;}
+}
+function sArr(a){
+  const b=[...a];
+  for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}
+  return b;
+}
+function pHTML(html){
+  const w=window.open('','_blank');
+  w.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Amiri:wght@700&display=swap" rel="stylesheet">
+    </head><body>${html}</body></html>`);
+  w.document.close();
+  setTimeout(()=>w.print(),800);
+}
+function dlCSV(rows,fn){
+  const csv='\uFEFF'+rows.map(r=>r.map(c=>`"${String(c||'').replace(/"/g,'""')}"`).join(',')).join('\n');
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8;'}));
+  a.download=fn; a.click();
+}
+
+// ════════════════════════════════════════════════
+// TABS
+// ════════════════════════════════════════════════
+function showTab(id){
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('on'));
+  document.querySelectorAll('.tb').forEach(b=>b.classList.remove('on'));
+  $(id).classList.add('on');
+  const ids=['t0','t1','t2','t3','t4','t5','t6','t7','t8','t9'];
+  document.querySelectorAll('.tb')[ids.indexOf(id)]?.classList.add('on');
+  if(id==='t8') fillInvSel();
+  if(id==='t6'){fillSessPageSel();renderSessPage();}
+  if(id==='t9') buildRoomsTable();
+  if(id==='t7'){fillResSel();renderResPage();}
+  if(id==='t9') renderTeacherGrid();
+  updateDash();
+}
+
+// ════════════════════════════════════════════════
+// TEACHER × DAYS GRID
+// ════════════════════════════════════════════════
+function renderTeacherGrid(){
+  const el=$('teacherGridContent');
+  if(!Object.keys(distrib).length){
+    el.innerHTML='<div class="card" style="text-align:center;color:var(--gray);padding:20px">أجرِ التوزيع أولاً ثم ارجع هنا</div>';
+    return;
+  }
+  const sortedExams=exams.filter(ex=>distrib[ex.id])
+    .sort((a,b)=>a.date.localeCompare(b.date)||(a.period==='صباحية'?-1:1));
+  const uniqueDates=[...new Set(sortedExams.map(e=>e.date))].sort();
+
+  // Build 3-level header
+  let h1='<th rowspan="3" style="background:#2d2d2d;color:#fff;padding:7px 10px;border:1px solid #999;min-width:160px">الأستاذ(ة) / القاعة</th>';
+  let h2='', h3='';
+  uniqueDates.forEach(date=>{
+    const dayEx=sortedExams.filter(e=>e.date===date);
+    const span=dayEx.length*2;
+    h1+=`<th colspan="${span}" style="background:#d4a017;color:#111;text-align:center;padding:6px;border:1px solid #999">${fmtDate(date)}</th>`;
+    dayEx.forEach(ex=>{
+      h2+=`<th colspan="2" style="background:#e8c04a;color:#111;text-align:center;padding:5px;border:1px solid #999;font-size:11px">${ex.period}</th>`;
+      h3+=`<th style="background:#f5d76e;color:#333;padding:4px 3px;border:1px solid #999;font-size:10px;min-width:55px">ح1</th><th style="background:#f5d76e;color:#333;padding:4px 3px;border:1px solid #999;font-size:10px;min-width:55px">ح2</th>`;
+    });
+  });
+
+  // Teacher rows
+  const tRows=teachers.filter(t=>t.type!=='معفى').map((t,i)=>{
+    const bg=i%2===0?'#fff':'#f9f9f7';
+    let cells=`<td style="border:1px solid #ccc;padding:5px 9px;background:#f0ede6;font-size:11px;white-space:nowrap">${i+1}. ${t.name}</td>`;
+    sortedExams.forEach(ex=>{
+      const room=(distrib[ex.id]?.rooms||[]).find(r=>r.guards.some(g=>g.name===t.name));
+      const isRes=(distrib[ex.id]?.reserve||[]).includes(t.name);
+      const val=room?room.room:(isRes?'احتياط':'');
+      const cellBg=room?'#e8f5e9':isRes?'#ffebee':bg;
+      const cellColor=isRes?'#c0392b':'#1a4731';
+      cells+=`<td colspan="2" style="border:1px solid #ddd;padding:4px;text-align:center;font-size:10px;background:${cellBg};color:${cellColor};font-weight:${val?'700':'normal'}">${val||'○'}</td>`;
+    });
+    return `<tr>${cells}</tr>`;
+  }).join('');
+
+  // Room rows
+  const allRooms=[...new Set([...natRooms,...regRooms].map(r=>r.name))];
+  const rRows=allRooms.map((rName,i)=>{
+    const bg=i%2===0?'#fff':'#f9f9f7';
+    let cells=`<td style="border:1px solid #ccc;padding:5px 9px;background:#e3f2fd;font-size:11px;font-weight:700;white-space:nowrap">${rName}</td>`;
+    sortedExams.forEach(ex=>{
+      const rd=(distrib[ex.id]?.rooms||[]).find(r=>r.room===rName);
+      const g1=rd?.guards[0]?.name||'';
+      const g2=rd?.guards[1]?.name||'';
+      cells+=`<td style="border:1px solid #ddd;padding:4px;text-align:center;font-size:10px;background:${bg}">${g1||'—'}</td>`;
+      cells+=`<td style="border:1px solid #ddd;padding:4px;text-align:center;font-size:10px;background:${bg}">${g2||'—'}</td>`;
+    });
+    return `<tr>${cells}</tr>`;
+  }).join('');
+
+  el.innerHTML=`
+    <div class="card" style="padding:0;overflow:hidden">
+      <div style="padding:10px 14px;background:linear-gradient(90deg,var(--green),var(--green-mid));color:#fff;font-weight:700;display:flex;justify-content:space-between;align-items:center">
+        <span>📊 جدول الأساتذة × الأيام</span>
+        <div style="display:flex;gap:6px">
+          <button class="btn bgold sm" onclick="printTeacherGrid()">🖨️ طباعة</button>
+          <button class="btn bgray sm" onclick="exportTeacherGridCSV()">💾 CSV</button>
+        </div>
+      </div>
+      <div class="tw" style="padding:10px">
+        <table style="border-collapse:collapse;font-size:11px">
+          <thead><tr>${h1}</tr><tr>${h2}</tr><tr>${h3}</tr></thead>
+          <tbody>${tRows}</tbody>
+        </table>
+      </div>
+    </div>
+    <div class="card" style="padding:0;overflow:hidden;margin-top:14px">
+      <div style="padding:10px 14px;background:linear-gradient(90deg,var(--blue),var(--blue-mid));color:#fff;font-weight:700">
+        🏛️ جدول القاعات × الأيام
+      </div>
+      <div class="tw" style="padding:10px">
+        <table style="border-collapse:collapse;font-size:11px">
+          <thead><tr>${h1.replace('الأستاذ(ة) / القاعة','القاعة')}</tr><tr>${h2}</tr><tr>${h3}</tr></thead>
+          <tbody>${rRows}</tbody>
+        </table>
+      </div>
+    </div>`;
+}
+
+function printTeacherGrid(){
+  const el=$('teacherGridContent');
+  if(!el.querySelector('table')){alert('اضغط "تحديث الجدول" أولاً');return;}
+  pHTML(`<style>body{font-family:'Cairo',sans-serif;direction:rtl;font-size:10px}
+    table{border-collapse:collapse;width:100%;margin-bottom:14px}
+    th,td{border:1px solid #999;padding:3px 5px;text-align:center}
+    h2{text-align:center;color:#1a4731;margin:6px 0}
+    @page{margin:6mm;size:landscape}</style>
+    <h2>${v('cfgSchool')} — جدول الحراسة الشامل — ${v('cfgSess')}</h2>
+    ${el.innerHTML}`);
+}
+
+function exportTeacherGridCSV(){
+  const sortedExams=exams.filter(ex=>distrib[ex.id]).sort((a,b)=>a.date.localeCompare(b.date));
+  const hdr=['الأستاذ(ة)'];
+  sortedExams.forEach(ex=>{hdr.push(`${fmtDate(ex.date)}_${ex.period}_ح1`,`${fmtDate(ex.date)}_${ex.period}_ح2`);});
+  const rows=[hdr];
+  teachers.filter(t=>t.type!=='معفى').forEach(t=>{
+    const row=[t.name];
+    sortedExams.forEach(ex=>{
+      const room=(distrib[ex.id]?.rooms||[]).find(r=>r.guards.some(g=>g.name===t.name));
+      const isRes=(distrib[ex.id]?.reserve||[]).includes(t.name);
+      const val=room?room.room:(isRes?'احتياط':'—');
+      row.push(val,val);
+    });
+    rows.push(row);
+  });
+  dlCSV(rows,'جدول-الأساتذة.csv');
+}
+
+// ════════════════════════════════════════════════
+// STATE
+// ════════════════════════════════════════════════
+let teachers=[], natRooms=[], regRooms=[], exams=[];
+let distrib={}; // {examId: {rooms:[{room,subj,branch,cand,guards:[],supervisor:''}], reserve:[]}}
+let isDirty=false;
+
+// ════════════════════════════════════════════════
+// SAVE / LOAD
+// ════════════════════════════════════════════════
+function getCfg(){
+  return {
+    school:v('cfgSchool'),city:v('cfgCity'),dir:v('cfgDir'),code:v('cfgCode'),
+    phone:v('cfgPhone'),sess:v('cfgSess'),type:v('cfgType'),acad:v('cfgAcad'),prov:v('cfgProv'),
+    g:v('cfgG'),maxDay:v('cfgMaxDay'),maxTot:v('cfgMaxTot'),res:v('cfgRes'),sup:v('cfgSup'),
+    noOwn:$('tNoOwn').classList.contains('on'),balance:$('tBalance').classList.contains('on'),
+    shuffle:$('tShuffle').classList.contains('on'),autoRes:$('tAutoRes').classList.contains('on'),
+    invHeader:v('cfgInvHeader'),invSubject:v('cfgInvSubject'),invBody:v('cfgInvBody'),
+    invNum:v('cfgInvNum'),invDate:v('cfgInvDate'),regDir:v('cfgRegDir'),invRef:v('cfgInvRef'),
+    invFoot:v('cfgInvFoot'),invNote:v('cfgInvNote'),
+  };
+}
+
+function saveAll(){
+  const data={teachers,natRooms,regRooms,exams,distrib,cfg:getCfg(),savedAt:new Date().toLocaleString('ar-MA')};
+  localStorage.setItem('harasat_v4',JSON.stringify(data));
+  isDirty=false;
+  $('saveDot').classList.add('saved');
+  $('saveLabel').innerHTML='<span class="save-dot saved"></span> تم الحفظ';
+  alert2('alertSave','✅ تم حفظ البيانات','al-save');
+  setTimeout(()=>{$('saveDot').classList.remove('saved');},3000);
+}
+
+function loadSaved(){
+  try{
+    const raw=localStorage.getItem('harasat_v4'); if(!raw) return false;
+    const d=JSON.parse(raw);
+    teachers=d.teachers||[];natRooms=d.natRooms||[];regRooms=d.regRooms||[];
+    exams=d.exams||[];distrib=d.distrib||{};
+    const c=d.cfg||{};
+    const m={cfgSchool:'school',cfgCity:'city',cfgDir:'dir',cfgCode:'code',cfgPhone:'phone',
+      cfgSess:'sess',cfgType:'type',cfgAcad:'acad',cfgProv:'prov',
+      cfgG:'g',cfgMaxDay:'maxDay',cfgMaxTot:'maxTot',cfgRes:'res',cfgSup:'sup',
+      cfgInvHeader:'invHeader',cfgInvSubject:'invSubject',cfgInvBody:'invBody',
+      cfgInvNum:'invNum',cfgInvDate:'invDate',cfgRegDir:'regDir',cfgInvRef:'invRef',
+      cfgInvFoot:'invFoot',cfgInvNote:'invNote'};
+    Object.entries(m).forEach(([el,key])=>{if(c[key]!==undefined) setV(el,c[key]);});
+    ['tNoOwn','tBalance','tShuffle','tAutoRes'].forEach(k=>{
+      const key=k.slice(1).charAt(0).toLowerCase()+k.slice(2);
+      if(c[key]!==undefined) $(k).classList.toggle('on',c[key]);
+    });
+    if(c.school) $('hdrSchool').textContent=c.school;
+    return true;
+  }catch(e){console.error(e);return false;}
+}
+
+function exportBackup(){
+  const data={teachers,natRooms,regRooms,exams,distrib,cfg:getCfg(),savedAt:new Date().toISOString()};
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}));
+  a.download=`harasat-bac-${new Date().toISOString().slice(0,10)}.json`;
+  a.click();
+}
+
+function importBackup(e){
+  const file=e.target.files[0]; if(!file) return;
+  const r=new FileReader();
+  r.onload=ev=>{
+    try{
+      localStorage.setItem('harasat_v4',ev.target.result);
+      loadSaved(); renderAll(); updateDash();
+      alert('✅ تم استيراد البيانات بنجاح');
+    }catch(err){alert('خطأ في الملف: '+err.message);}
+  };
+  r.readAsText(file);
+}
+
+function markDirty(){
+  isDirty=true;
+  $('saveDot').classList.remove('saved');
+  $('saveLabel').innerHTML='<span class="save-dot"></span> تعديلات غير محفوظة';
+}
+
+// ════════════════════════════════════════════════
+// MODALS
+// ════════════════════════════════════════════════
+function openModal(id){$(id).classList.add('open');}
+function closeModal(id){$(id).classList.remove('open');}
+window.addEventListener('click',e=>{
+  document.querySelectorAll('.modal-bg.open').forEach(m=>{if(e.target===m) m.classList.remove('open');});
+});
+
+// ════════════════════════════════════════════════
+// TEACHERS
+// ════════════════════════════════════════════════
+function openTeacherModal(id=null){
+  $('tmId').value=id||'';
+  if(id){
+    const t=teachers.find(x=>x.id===id);
+    if(!t) return;
+    $('tmTitle').textContent='تعديل أستاذ';
+    setV('tmName',t.name);setV('tmMat',t.mat);setV('tmGen',t.gen);
+    setV('tmSubj',t.subj);setV('tmBranch',t.branch);setV('tmType',t.type);setV('tmNote',t.note||'');
+  } else {
+    $('tmTitle').textContent='إضافة أستاذ';
+    ['tmName','tmMat','tmNote'].forEach(x=>setV(x,''));
+    setV('tmGen','ذكر');setV('tmBranch','علمية');setV('tmType','وطني+جهوي');
+  }
+  openModal('teacherModal');
+  setTimeout(()=>$('tmName').focus(),100);
+}
+
+function saveTeacher(){
+  const name=v('tmName').trim(); if(!name){alert('أدخل الاسم');return;}
+  const id=v('tmId')||null;
+  const obj={
+    id:id||(Date.now()+Math.random()),name,mat:v('tmMat').trim(),gen:v('tmGen'),
+    subj:v('tmSubj').trim()||'—',branch:v('tmBranch'),type:v('tmType'),
+    note:v('tmNote').trim(),sN:0,sR:0
+  };
+  if(id){
+    const old=teachers.find(t=>t.id==id);
+    if(old){obj.sN=old.sN;obj.sR=old.sR;}
+    teachers=teachers.map(t=>t.id==id?obj:t);
+  } else {
+    teachers.push(obj);
+  }
+  closeModal('teacherModal');
+  renderTeachers(); markDirty();
+}
+
+function deleteTeacher(id){
+  if(!confirm('حذف هذا الأستاذ؟')) return;
+  teachers=teachers.filter(t=>t.id!==id);
+  renderTeachers(); markDirty();
+}
+
+function clearTeachers(){
+  if(!confirm('مسح كل الأساتذة؟')) return;
+  teachers=[]; renderTeachers(); markDirty();
+}
+
+function renderTeachers(){
+  const tb=$('tBody');
+  if(!teachers.length){
+    tb.innerHTML='<tr><td colspan="11" style="text-align:center;color:var(--gray);padding:18px">لا يوجد أساتذة — اضغط "إضافة أستاذ"</td></tr>';
+    updateTeacherStats(); return;
+  }
+  tb.innerHTML=teachers.map((t,i)=>{
+    const tc=t.type==='معفى'?'bg-red':t.type==='وطني'?'bg-green':t.type==='جهوي'?'bg-blue':'bg-gold';
+    const bc=t.branch==='علمية'?'bg-green':t.branch==='أدبية'?'bg-blue':'bg-gray';
+    return `<tr>
+      <td>${i+1}</td>
+      <td><strong>${t.name}</strong>${t.note?`<br><span class="tsm">${t.note}</span>`:''}</td>
+      <td><span class="badge bg-gold">${t.subj}</span></td>
+      <td><span class="badge ${bc}">${t.branch}</span></td>
+      <td><small>${t.mat||'—'}</small></td>
+      <td>${t.gen}</td>
+      <td><span class="badge ${tc}" style="cursor:pointer" onclick="cycleType('${t.id}')">${t.type}</span></td>
+      <td><span class="badge bg-green">${t.sN}</span></td>
+      <td><span class="badge bg-blue">${t.sR}</span></td>
+      <td><span class="badge bg-gold">${t.sN+t.sR}</span></td>
+      <td>
+        <button class="btn bgold sm" onclick="openTeacherModal('${t.id}')">✏️</button>
+        <button class="btn bred sm" onclick="deleteTeacher('${t.id}')">🗑️</button>
+      </td>
+    </tr>`;
+  }).join('');
+  updateTeacherStats();
+}
+
+function cycleType(id){
+  const t=teachers.find(x=>x.id==id); if(!t) return;
+  const tp=['وطني+جهوي','وطني','جهوي','معفى'];
+  t.type=tp[(tp.indexOf(t.type)+1)%tp.length];
+  renderTeachers(); markDirty();
+}
+
+function updateTeacherStats(){
+  const av=teachers.filter(t=>t.type!=='معفى').length;
+  $('stT').textContent=teachers.length; $('stA').textContent=av;
+  $('stM').textContent=teachers.filter(t=>t.gen==='ذكر').length;
+  $('stF').textContent=teachers.filter(t=>t.gen==='أنثى').length;
+  $('dashT').textContent=teachers.length;
+}
+
+// Import teachers
+function openPasteModal(){openModal('pasteModal');setTimeout(()=>$('pasteArea').focus(),100);}
+function importPasted(){
+  const raw=v('pasteArea').trim(); if(!raw){closeModal('pasteModal');return;}
+  const lines=raw.split('\n').map(l=>l.trim()).filter(Boolean);
+  let count=0;
+  lines.forEach(l=>{
+    const p=l.split(/[,،\t]/);
+    const name=p[0].trim(); if(!name) return;
+    if(!teachers.find(t=>t.name===name)){
+      teachers.push({id:Date.now()+Math.random(),name,subj:p[1]?p[1].trim():'—',
+        mat:'',gen:p[2]?p[2].trim():'ذكر',branch:'علمية',type:'وطني+جهوي',note:'',sN:0,sR:0});
+      count++;
+    }
+  });
+  setV('pasteArea','');
+  closeModal('pasteModal');
+  renderTeachers(); markDirty();
+  alert2('alertT',`✅ تم استيراد ${count} أستاذ`,'al-ok');
+}
+
+function importTeacherFile(e){
+  const file=e.target.files[0]; if(!file) return;
+  const ext=file.name.split('.').pop().toLowerCase();
+  if(ext==='txt'||ext==='csv'){
+    const r=new FileReader(); r.onload=ev=>{
+      let c=0;
+      ev.target.result.split('\n').map(l=>l.trim()).filter(Boolean).forEach(l=>{
+        const p=l.split(/[,،\t]/);const n=(p[0]||'').trim();
+        if(n&&!teachers.find(t=>t.name===n)){
+          teachers.push({id:Date.now()+Math.random(),name:n,subj:p[1]?p[1].trim():'—',
+            mat:p[3]?p[3].trim():'',gen:p[2]?p[2].trim():'ذكر',branch:'علمية',type:'وطني+جهوي',note:'',sN:0,sR:0});
+          c++;
+        }
+      });
+      renderTeachers(); markDirty();
+      alert2('alertT',`✅ تم تحميل ${c} أستاذ`,'al-ok');
+    }; r.readAsText(file,'UTF-8');
+  } else {
+    if(typeof XLSX==='undefined'){
+      const s=document.createElement('script');
+      s.src='https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';
+      s.onload=()=>parseXL(file); document.head.appendChild(s);
+    } else parseXL(file);
+  }
+}
+function parseXL(file){
+  const r=new FileReader(); r.onload=e=>{
+    const wb=XLSX.read(new Uint8Array(e.target.result),{type:'array'});
+    const rows=XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]],{header:1});
+    let c=0;
+    rows.forEach((row,i)=>{
+      if(i===0&&row[0]&&/اسم|name/i.test(String(row[0]))) return;
+      const n=row[0]?String(row[0]).trim():'';
+      if(n&&!teachers.find(t=>t.name===n)){
+        teachers.push({id:Date.now()+Math.random(),name:n,subj:row[1]?String(row[1]).trim():'—',
+          mat:row[3]?String(row[3]).trim():'',gen:row[2]?String(row[2]).trim():'ذكر',
+          branch:'علمية',type:'وطني+جهوي',note:'',sN:0,sR:0});
+        c++;
+      }
+    });
+    renderTeachers(); markDirty();
+    alert2('alertT',`✅ تم تحميل ${c} أستاذ من Excel`,'al-ok');
+  }; r.readAsArrayBuffer(file);
+}
+
+function exportTeachersCSV(){
+  const rows=[['#','الاسم','المادة','الشعبة','التأجير','الجنس','نوع الحراسة','وطني','جهوي','المجموع']];
+  teachers.forEach((t,i)=>rows.push([i+1,t.name,t.subj,t.branch,t.mat,t.gen,t.type,t.sN,t.sR,t.sN+t.sR]));
+  dlCSV(rows,'الأساتذة.csv');
+}
+
+// ════════════════════════════════════════════════
+// ROOMS
+// ════════════════════════════════════════════════
+function addRoom(type){
+  const p=type==='nat'?'rn':'rr';
+  const name=v(p+'N').trim(); if(!name){alert('أدخل اسم القاعة');return;}
+  const arr=type==='nat'?natRooms:regRooms;
+  arr.push({id:Date.now()+Math.random(),name,cand:parseInt(v(p+'C'))||30,
+    branch:v(p+'Branch'),subj:v(p+'Subj').trim()||''});
+  setV(p+'N',''); setV(p+'Subj','');
+  renderRooms(); markDirty();
+}
+
+function genRooms(type){
+  const p=type==='nat'?'rn':'rr';
+  const from=parseInt(v(p+'From')),to=parseInt(v(p+'To'));
+  const pfx=v(p+'Pfx'),cand=parseInt(v(p+'Def'))||30;
+  const branch=v(p+'GenBranch');
+  const arr=type==='nat'?natRooms:regRooms;
+  for(let i=from;i<=to;i++){
+    const nm=pfx+String(i).padStart(2,'0');
+    if(!arr.find(r=>r.name===nm)) arr.push({id:Date.now()+i+Math.random(),name:nm,cand,branch,subj:''});
+  }
+  renderRooms(); markDirty();
+}
+
+function delRoom(type,id){
+  if(type==='nat') natRooms=natRooms.filter(r=>r.id!==id);
+  else regRooms=regRooms.filter(r=>r.id!==id);
+  renderRooms(); markDirty();
+}
+
+function clearRooms(type){
+  if(!confirm('مسح هذه القاعات؟')) return;
+  if(type==='nat') natRooms=[]; else regRooms=[];
+  renderRooms(); markDirty();
+}
+
+function renderRooms(){
+  const g=parseInt(v('cfgG'))||2;
+  const makeRow=(r,i,type)=>{
+    const bc=r.branch==='علمية'?'bg-green':r.branch==='أدبية'?'bg-blue':'bg-gray';
+    return `<tr>
+      <td>${i+1}</td><td><strong>${r.name}</strong></td><td>${r.cand}</td>
+      <td><span class="badge ${bc}">${r.branch}</span></td>
+      <td>${r.subj?`<span class="badge bg-gold">📚 ${r.subj}</span>`:'—'}</td>
+      <td><button class="btn bred sm" onclick="delRoom('${type}',${r.id})">🗑️</button></td>
+    </tr>`;
+  };
+  const emptyRow=(cols)=>`<tr><td colspan="${cols}" style="text-align:center;color:var(--gray);padding:14px">لا توجد قاعات</td></tr>`;
+  $('natRTb').innerHTML=natRooms.length?natRooms.map((r,i)=>makeRow(r,i,'nat')).join(''):emptyRow(6);
+  $('regRTb').innerHTML=regRooms.length?regRooms.map((r,i)=>makeRow(r,i,'reg')).join(''):emptyRow(6);
+  $('stNR').textContent=natRooms.length; $('stRR').textContent=regRooms.length;
+  $('stNG').textContent=natRooms.length*g; $('stRG').textContent=regRooms.length*g;
+  $('dashR').textContent=natRooms.length+regRooms.length;
+}
+
+// ════════════════════════════════════════════════
+// EXAMS
+// ════════════════════════════════════════════════
+function openExamModal(id=null){
+  $('emId').value=id||'';
+  if(id){
+    const ex=exams.find(x=>x.id===id); if(!ex) return;
+    $('emTitle').textContent='تعديل حصة';
+    setV('emType',ex.type);setV('emDay',ex.day);setV('emDate',ex.date);
+    setV('emPeriod',ex.period);setV('emFrom',ex.from);setV('emTo',ex.to);
+    setV('emSubj',ex.subj);setV('emBranch',ex.branch);
+  } else {
+    $('emTitle').textContent='إضافة حصة امتحان';
+    ['emDay','emDate','emSubj'].forEach(x=>setV(x,''));
+    setV('emType','nat');setV('emPeriod','صباحية');setV('emFrom','08:00');setV('emTo','10:00');setV('emBranch','علمية');
+  }
+  openModal('examModal');
+}
+
+function saveExam(){
+  const id=v('emId')||null;
+  const obj={
+    id:id||(Date.now()+Math.random()),type:v('emType'),day:v('emDay').trim()||'اليوم 1',
+    date:v('emDate'),period:v('emPeriod'),from:v('emFrom'),to:v('emTo'),
+    subj:v('emSubj').trim()||'—',branch:v('emBranch')
+  };
+  if(id) exams=exams.map(e=>e.id==id?obj:e);
+  else exams.push(obj);
+  closeModal('examModal');
+  renderExams(); markDirty();
+}
+
+function deleteExam(id){
+  if(!confirm('حذف هذه الحصة؟')) return;
+  exams=exams.filter(e=>e.id!==id);
+  delete distrib[id];
+  renderExams(); markDirty();
+}
+
+function clearExams(){
+  if(!confirm('مسح كل الحصص؟')) return;
+  exams=[]; distrib={};
+  renderExams(); markDirty();
+}
+
+function loadDefaultProgram(){
+  exams=[
+    {id:'n1',type:'nat',day:'اليوم الأول',date:'2026-06-15',period:'صباحية',from:'08:00',to:'10:00',subj:'اللغة العربية / اللغة الفرنسية',branch:'كلتاهما'},
+    {id:'n2',type:'nat',day:'اليوم الأول',date:'2026-06-15',period:'مسائية',from:'14:00',to:'16:00',subj:'التاريخ والجغرافيا / الفيزياء',branch:'كلتاهما'},
+    {id:'n3',type:'nat',day:'اليوم الثاني',date:'2026-06-16',period:'صباحية',from:'08:00',to:'10:00',subj:'الفلسفة / علوم الحياة',branch:'كلتاهما'},
+    {id:'n4',type:'nat',day:'اليوم الثاني',date:'2026-06-16',period:'مسائية',from:'14:00',to:'16:00',subj:'الرياضيات / التربية الإسلامية',branch:'كلتاهما'},
+    {id:'n5',type:'nat',day:'اليوم الثالث',date:'2026-06-17',period:'صباحية',from:'08:00',to:'10:00',subj:'اللغة الإنجليزية / الإسبانية',branch:'كلتاهما'},
+    {id:'n6',type:'nat',day:'اليوم الثالث',date:'2026-06-17',period:'مسائية',from:'14:00',to:'16:00',subj:'الاقتصاد والتدبير',branch:'كلتاهما'},
+    {id:'r1',type:'reg',day:'اليوم الأول',date:'2026-06-08',period:'صباحية',from:'08:00',to:'10:30',subj:'اللغة العربية',branch:'كلتاهما'},
+    {id:'r2',type:'reg',day:'اليوم الأول',date:'2026-06-08',period:'مسائية',from:'14:00',to:'16:00',subj:'الرياضيات',branch:'علمية'},
+    {id:'r3',type:'reg',day:'اليوم الثاني',date:'2026-06-09',period:'صباحية',from:'08:00',to:'10:30',subj:'اللغة الفرنسية',branch:'كلتاهما'},
+    {id:'r4',type:'reg',day:'اليوم الثاني',date:'2026-06-09',period:'مسائية',from:'14:00',to:'16:00',subj:'التاريخ والجغرافيا',branch:'أدبية'},
+  ];
+  renderExams(); markDirty();
+}
+
+function renderExams(){
+  const tb=$('examTb'); $('dashE').textContent=exams.length;
+  if(!exams.length){
+    tb.innerHTML='<tr><td colspan="10" style="text-align:center;color:var(--gray);padding:18px">لا توجد حصص</td></tr>';
+    return;
+  }
+  const g=parseInt(v('cfgG'))||2;
+  const rooms=ex=>ex.type==='nat'?natRooms:regRooms;
+  tb.innerHTML=exams.map((ex,i)=>{
+    const typeLabel=ex.type==='nat'?'<span class="badge bg-green">🇲🇦 وطني</span>':'<span class="badge bg-blue">🏙️ جهوي</span>';
+    const bc=ex.branch==='علمية'?'bg-green':ex.branch==='أدبية'?'bg-blue':'bg-gold';
+    const needed=rooms(ex).length*g;
+    return `<tr>
+      <td>${i+1}</td><td>${typeLabel}</td><td>${ex.day}</td>
+      <td>${fmtDate(ex.date)}</td><td>${ex.period}</td>
+      <td>${ex.from}—${ex.to}</td>
+      <td><span class="badge bg-gold">${ex.subj}</span></td>
+      <td><span class="badge ${bc}">${ex.branch}</span></td>
+      <td><span class="badge bg-gray">${needed} حارس</span></td>
+      <td>
+        <button class="btn bgold sm" onclick="openExamModal('${ex.id}')">✏️</button>
+        <button class="btn bred sm" onclick="deleteExam('${ex.id}')">🗑️</button>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+// ════════════════════════════════════════════════
+// DISTRIBUTION ENGINE
+// ════════════════════════════════════════════════
+function runFullDist(){runDist('both');}
+
+function runDist(only='both'){
+  if(!teachers.length) return alert2('alertD','⚠️ أضف الأساتذة أولاً','al-warn');
+  if(!exams.length) return alert2('alertD','⚠️ أضف برنامج الامتحانات','al-warn');
+
+  const g=parseInt(v('cfgG'))||2;
+  const maxDay=parseInt(v('cfgMaxDay'))||2;
+  const maxTot=parseInt(v('cfgMaxTot'))||8;
+  const noOwn=$('tNoOwn').classList.contains('on');
+  const balance=$('tBalance').classList.contains('on');
+  const shuffle=$('tShuffle').classList.contains('on');
+
+  teachers.forEach(t=>{t.sN=0;t.sR=0;});
+  let warns=0, totalAssigned=0;
+
+  // daily count per teacher
+  const dayCount={}; // teacherId -> {date -> count}
+
+  const filteredExams=exams.filter(ex=>{
+    if(only==='nat') return ex.type==='nat';
+    if(only==='reg') return ex.type==='reg';
+    return true;
+  });
+
+  filteredExams.forEach(ex=>{
+    const rooms=ex.type==='nat'?natRooms:regRooms;
+    if(!rooms.length) return;
+
+    let pool=teachers.filter(t=>{
+      if(t.type==='معفى') return false;
+      if(ex.type==='nat'&&t.type==='جهوي') return false;
+      if(ex.type==='reg'&&t.type==='وطني') return false;
+      // total limit
+      const tot=ex.type==='nat'?t.sN:t.sR;
+      if(tot>=maxTot) return false;
+      return true;
+    });
+
+    if(balance) pool.sort((a,b)=>(a.sN+a.sR)-(b.sN+b.sR));
+    if(shuffle) pool=sArr(pool);
+
+    const used=new Set();
+    const date=ex.date||ex.day;
+
+    const roomAssignments=[];
+    rooms.forEach(room=>{
+      const guards=[];
+      // Subject/branch conflict check
+      const examSubjs=(ex.subj||'').split('/').map(s=>s.trim().toLowerCase()).filter(Boolean);
+
+      for(let gx=0;gx<g;gx++){
+        let cand=pool.find(t=>{
+          if(used.has(t.id)) return false;
+          // Day limit
+          if(!dayCount[t.id]) dayCount[t.id]={};
+          if((dayCount[t.id][date]||0)>=maxDay) return false;
+          // No own subject/branch rule
+          if(noOwn){
+            const ts=(t.subj||'').trim().toLowerCase();
+            const tb=(t.branch||'').trim();
+            // Subject match
+            if(ts&&ts!=='—'){
+              if(examSubjs.some(es=>es.includes(ts.slice(0,4))||ts.includes(es.slice(0,4)))) return false;
+            }
+            // Branch match: أستاذ علمي لا يحرس في قاعة علمية إذا كانت نفس المادة
+            if(tb==='علمية'&&room.branch==='علمية'&&ts&&ts!=='—'){
+              if(examSubjs.some(es=>es.includes(ts.slice(0,4)))) return false;
+            }
+            if(tb==='أدبية'&&room.branch==='أدبية'&&ts&&ts!=='—'){
+              if(examSubjs.some(es=>es.includes(ts.slice(0,4)))) return false;
+            }
+          }
+          return true;
+        });
+
+        let isWarn=false;
+        if(!cand){
+          warns++;isWarn=true;
+          cand=pool.find(t=>{
+            if(used.has(t.id)) return false;
+            if(!dayCount[t.id]) dayCount[t.id]={};
+            return (dayCount[t.id][date]||0)<maxDay;
+          });
+        }
+
+        if(cand){
+          guards.push({name:cand.name,warn:isWarn});
+          used.add(cand.id);
+          if(!dayCount[cand.id]) dayCount[cand.id]={};
+          dayCount[cand.id][date]=(dayCount[cand.id][date]||0)+1;
+          if(ex.type==='nat') cand.sN++; else cand.sR++;
+          totalAssigned++;
+        }
+      }
+
+      // Supervisor: find teacher of the room subject
+      let supervisor='';
+      if(room.subj){
+        const rs=room.subj.trim().toLowerCase();
+        const sup=teachers.find(t=>t.subj&&t.subj!=='—'&&t.subj.toLowerCase().includes(rs.slice(0,4))&&t.type!=='معفى');
+        if(sup) supervisor=sup.name;
+      }
+
+      roomAssignments.push({
+        room:room.name,subj:room.subj||'',branch:room.branch,
+        cand:room.cand,guards,supervisor
+      });
+    });
+
+    distrib[ex.id]={rooms:roomAssignments,reserve:[]};
+  });
+
+  // Auto-reserve
+  if($('tAutoRes').classList.contains('on')) buildAllReserves();
+
+  renderTeachers();
+  renderDistResult();
+  fillSessPageSel(); fillResSel();
+  $('dashD').textContent=Object.keys(distrib).length;
+  markDirty();
+
+  const msg=warns>0
+    ?`✅ تم التوزيع — ${totalAssigned} تعيين — ⚠️ ${warns} تعارض تم تجاوزه`
+    :`✅ تم التوزيع بنجاح — ${totalAssigned} تعيين بدون تعارضات 🎉`;
+  alert2('alertD',msg,warns>0?'al-warn':'al-ok');
+  $('distStats').textContent=`إجمالي التعيينات: ${totalAssigned} | التعارضات المتجاوزة: ${warns}`;
+}
+
+function renderDistResult(){
+  const el=$('distResult');
+  if(!Object.keys(distrib).length){
+    el.innerHTML='<div class="card" style="text-align:center;color:var(--gray);padding:20px">اضغط "توزيع شامل" للبدء</div>';
+    return;
+  }
+  el.innerHTML=exams.filter(ex=>distrib[ex.id]).map(ex=>{
+    const d=distrib[ex.id];
+    const isReg=ex.type==='reg';
+    const col=isReg?'var(--blue-mid)':'var(--green)';
+    return `<div class="sess-page">
+      <div class="sess-ph${isReg?' blue':''}">
+        <span>📅 ${ex.day} — ${fmtDate(ex.date)} | ⏰ ${ex.from}—${ex.to} | ${ex.period} | 📚 ${ex.subj}</span>
+        <span style="font-size:.8rem;opacity:.8">${isReg?'🏙️ جهوي':'🇲🇦 وطني'}</span>
+      </div>
+      <div class="sess-pb">
+        <div class="room-grid">
+          ${d.rooms.map((r,ri)=>`
+            <div class="room-box">
+              <div class="room-bh">${r.room}</div>
+              <div class="room-bb">
+                ${r.supervisor?`<div style="font-size:.69rem;color:#888;margin-bottom:3px">مداوم: ${r.supervisor}</div>`:''}
+                ${r.guards.map((g,gi)=>`
+                  <span class="tchip ${isReg?'tchip-b':'tchip-g'}${g.warn?' tchip-o':''}" contenteditable="true"
+                    onblur="distrib['${ex.id}'].rooms[${ri}].guards[${gi}].name=this.innerText.trim();markDirty()"
+                    style="outline:none">${g.name}</span><br>`).join('')}
+              </div>
+            </div>`).join('')}
+        </div>
+        <div class="fr" style="gap:6px">
+          <button class="btn bg sm" onclick="addGuard('${ex.id}')">➕ حارس</button>
+          <button class="btn bgold sm" onclick="showTab('t6');$('sessPageSel').value='${ex.id}';renderSessPage()">📋 صفحة الحصة</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function addGuard(examId){
+  const room=prompt('اسم القاعة:'); if(!room) return;
+  const name=prompt('اسم الأستاذ:'); if(!name) return;
+  const d=distrib[examId]; if(!d) return;
+  const ri=d.rooms.findIndex(r=>r.room===room);
+  if(ri<0){alert('القاعة غير موجودة');return;}
+  d.rooms[ri].guards.push({name:name.trim(),warn:false});
+  renderDistResult(); markDirty();
+}
+
+// Export distribution
+function exportDistCSV(){
+  const rows=[['نوع','اليوم','التاريخ','الفترة','التوقيت','القاعة','الشعبة','المادة','المترشحون','الحارس1','الحارس2','الحارس3','المداوم']];
+  exams.forEach(ex=>{
+    if(!distrib[ex.id]) return;
+    distrib[ex.id].rooms.forEach(r=>{
+      rows.push([ex.type==='nat'?'وطني':'جهوي',ex.day,fmtDate(ex.date),ex.period,
+        `${ex.from}-${ex.to}`,r.room,r.branch,r.subj,r.cand,
+        r.guards[0]?.name||'',r.guards[1]?.name||'',r.guards[2]?.name||'',r.supervisor||'']);
+    });
+  });
+  dlCSV(rows,'جدول-الحراسة-2026.csv');
+}
+
+// Print full distribution (like image 4 — grid style)
+function printFullDist(){
+  const school=v('cfgSchool')||'الثانوية التأهيلية الجديدة';
+  const sess=v('cfgSess')||'';
+  let html=`<style>
+    body{font-family:'Cairo',sans-serif;direction:rtl;font-size:12px}
+    h2{text-align:center;color:#1a4731;margin:6px 0}.sub{text-align:center;font-size:11px;color:#555;margin-bottom:8px}
+    .dh{font-weight:700;font-size:13px;padding:7px 12px;background:#e8f5e9;color:#1a4731;margin:14px 0 4px;border-radius:4px}
+    .dh.blue{background:#e3f2fd;color:#1a3a5c}
+    .sh{font-size:11px;color:#555;margin:4px 0 6px}
+    .rgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:10px}
+    .rb{border:2px solid #222;border-radius:4px;overflow:hidden}
+    .rbh{background:#222;color:#fff;text-align:center;padding:5px;font-weight:700;font-size:12px}
+    .rbb{padding:7px;text-align:center;font-size:11px;line-height:1.9;min-height:44px}
+    .sup{font-size:10px;color:#888}
+    @page{margin:12mm}
+    @media print{.pb{page-break-before:always}}
+  </style>
+  <h2>${school}</h2><div class="sub">${sess}</div>`;
+
+  ['nat','reg'].forEach(type=>{
+    const exList=exams.filter(ex=>ex.type===type&&distrib[ex.id]);
+    if(!exList.length) return;
+    html+=`<h3 style="color:${type==='nat'?'#1a4731':'#1a3a5c'};margin:14px 0 6px">${type==='nat'?'🇲🇦 الامتحان الوطني':'🏙️ الامتحان الجهوي'}</h3>`;
+    exList.forEach(ex=>{
+      const d=distrib[ex.id];
+      html+=`<div class="dh${type==='reg'?' blue':''}">📅 ${ex.day} — ${fmtDate(ex.date)} | ${ex.period} | ${ex.from}—${ex.to} | 📚 ${ex.subj}</div>`;
+      html+=`<div class="rgrid">`;
+      d.rooms.forEach(r=>{
+        html+=`<div class="rb">
+          <div class="rbh">${r.room}</div>
+          <div class="rbb">
+            ${r.supervisor?`<div class="sup">مداوم: ${r.supervisor}</div>`:''}
+            ${r.guards.map(g=>g.name).join('<br>')||'—'}
+          </div>
+        </div>`;
+      });
+      html+='</div>';
+    });
+  });
+  pHTML(html);
+}
+
+// ════════════════════════════════════════════════
+// SESSION PAGES (Tab 6)
+// ════════════════════════════════════════════════
+function fillSessPageSel(){
+  const sel=$('sessPageSel');
+  const cur=sel.value;
+  sel.innerHTML='<option value="">— اختر حصة —</option>';
+  exams.filter(ex=>distrib[ex.id]).forEach(ex=>{
+    sel.innerHTML+=`<option value="${ex.id}">${ex.type==='nat'?'🇲🇦':'🏙️'} ${ex.day} | ${ex.period} | ${ex.subj}</option>`;
+  });
+  sel.value=cur;
+}
+
+function renderSessPage(){
+  const id=v('sessPageSel');
+  const el=$('sessPageContent');
+  if(!id||!distrib[id]){
+    el.innerHTML='<div class="card" style="text-align:center;color:var(--gray);padding:20px">اختر حصة من القائمة</div>';
+    return;
+  }
+  const ex=exams.find(e=>e.id==id);
+  const d=distrib[id];
+  const isReg=ex.type==='reg';
+  const res=d.reserve||[];
+
+  el.innerHTML=`<div class="sess-page">
+    <div class="sess-ph${isReg?' blue':''}">
+      <span style="font-size:.88rem">📅 ${ex.day} — ${fmtDate(ex.date)} | ⏰ ${ex.from}—${ex.to} | ${ex.period} | 📚 ${ex.subj} | ${isReg?'🏙️ جهوي':'🇲🇦 وطني'}</span>
+      <div class="fr" style="gap:6px">
+        <button class="btn bgold sm" onclick="printSessPage()">🖨️ طباعة</button>
+      </div>
+    </div>
+    <div class="sess-pb">
+      <div style="font-weight:700;color:${isReg?'var(--blue-mid)':'var(--green)'};margin-bottom:10px">🏛️ القاعات والحراس</div>
+      <div class="room-grid">
+        ${d.rooms.map((r,ri)=>`
+          <div class="room-box">
+            <div class="room-bh">${r.room}${r.branch?` <small>(${r.branch})</small>`:''}</div>
+            <div class="room-bb">
+              ${r.supervisor?`<div style="font-size:.7rem;color:#888;margin-bottom:3px">👁️ ${r.supervisor}</div>`:''}
+              ${r.guards.map((g,gi)=>`
+                <span class="tchip ${isReg?'tchip-b':'tchip-g'}${g.warn?' tchip-o':''}" contenteditable="true"
+                  onblur="distrib['${id}'].rooms[${ri}].guards[${gi}].name=this.innerText.trim();markDirty()"
+                  style="outline:none;display:inline-block">${g.name}</span><br>`).join('')}
+              <div style="margin-top:4px">
+                <button style="border:none;background:none;cursor:pointer;font-size:.75rem;color:var(--green)" onclick="addGuardToRoom('${id}',${ri})">+أستاذ</button>
+                <button style="border:none;background:none;cursor:pointer;font-size:.75rem;color:var(--red)" onclick="rmLastGuard('${id}',${ri})">-أستاذ</button>
+              </div>
+            </div>
+          </div>`).join('')}
+      </div>
+
+      <div style="font-weight:700;color:#c0392b;margin:14px 0 8px">🔴 الاحتياط</div>
+      <div class="tw"><table style="max-width:600px">
+        <thead><tr><th style="width:50px">ر.ت</th><th>الأستاذ(ة)</th><th style="width:80px">إجراء</th></tr></thead>
+        <tbody>
+          ${res.map((name,ri)=>`
+            <tr>
+              <td style="text-align:center">${ri+1}</td>
+              <td><span contenteditable="true" onblur="distrib['${id}'].reserve[${ri}]=this.innerText.trim();markDirty()" style="outline:none;display:block">${name}</span></td>
+              <td><button class="btn bred sm" onclick="distrib['${id}'].reserve.splice(${ri},1);renderSessPage()">🗑️</button></td>
+            </tr>`).join('')}
+        </tbody>
+      </table></div>
+      <button class="btn bg sm mt1" onclick="addReserveName('${id}')">➕ إضافة احتياط</button>
+
+      <div style="font-weight:700;color:var(--purple);margin:14px 0 8px">👁️ المداومون</div>
+      <div class="tw"><table style="max-width:600px">
+        <thead><tr><th>القاعة</th><th>المداوم(ة)</th></tr></thead>
+        <tbody>
+          ${d.rooms.map((r,ri)=>`
+            <tr>
+              <td><strong>${r.room}</strong></td>
+              <td><select onchange="distrib['${id}'].rooms[${ri}].supervisor=this.value;markDirty()" style="max-width:220px">
+                <option value="">— اختر —</option>
+                ${teachers.filter(t=>t.type!=='معفى').map(t=>`<option value="${t.name}" ${r.supervisor===t.name?'selected':''}>${t.name} (${t.subj})</option>`).join('')}
+              </select></td>
+            </tr>`).join('')}
+        </tbody>
+      </table></div>
+    </div>
+  </div>`;
+}
+
+function addGuardToRoom(examId,ri){
+  const name=prompt('اسم الأستاذ:'); if(!name) return;
+  distrib[examId].rooms[ri].guards.push({name:name.trim(),warn:false});
+  renderSessPage(); markDirty();
+}
+function rmLastGuard(examId,ri){
+  const g=distrib[examId].rooms[ri].guards;
+  if(g.length>0) g.pop();
+  renderSessPage(); markDirty();
+}
+function addReserveName(examId){
+  const name=prompt('اسم الأستاذ الاحتياطي:'); if(!name) return;
+  if(!distrib[examId].reserve) distrib[examId].reserve=[];
+  distrib[examId].reserve.push(name.trim());
+  renderSessPage(); markDirty();
+}
+
+function printSessPage(){
+  const id=v('sessPageSel');
+  if(!id||!distrib[id]){alert('اختر حصة أولاً');return;}
+  const ex=exams.find(e=>e.id==id);
+  const d=distrib[id];
+  pHTML(buildSessPageHTML(ex,d,v('cfgSchool'),v('cfgSess'),v('cfgAcad'),v('cfgProv')));
+}
+
+function printAllSessPages(){
+  const pages=exams.filter(ex=>distrib[ex.id]);
+  if(!pages.length){alert('لا توجد حصص موزعة');return;}
+  const school=v('cfgSchool'),sess=v('cfgSess'),acad=v('cfgAcad'),prov=v('cfgProv');
+  pHTML(pages.map((ex,i)=>buildSessPageHTML(ex,distrib[ex.id],school,sess,acad,prov)+(i<pages.length-1?'<div style="page-break-after:always"></div>':'')).join(''));
+}
+
+function buildSessPageHTML(ex,d,school,sess,acad,prov){
+  const isReg=ex.type==='reg';
+  const col=isReg?'#1a3a5c':'#1a4731';
+  const rooms=d.rooms||[];
+  const res=d.reserve||[];
+
+  // Header bar like image 2
+  const headerBar=`
+    <table style="width:100%;border-collapse:collapse;margin-bottom:14px;font-size:12px">
+      <tr>
+        <td style="border:1px solid #999;padding:5px 10px;background:#f5f5f5;font-weight:700;text-align:center">التاريخ</td>
+        <td style="border:1px solid #999;padding:5px 10px;text-align:center">${fmtDate(ex.date)}</td>
+        <td style="border:1px solid #999;padding:5px 10px;background:#f5f5f5;font-weight:700;text-align:center">الفترة</td>
+        <td style="border:1px solid #999;padding:5px 10px;text-align:center">${ex.period}</td>
+        <td style="border:1px solid #999;padding:5px 10px;background:#f5f5f5;font-weight:700;text-align:center">التوقيت</td>
+        <td style="border:1px solid #999;padding:5px 10px;text-align:center">${ex.from}—${ex.to}</td>
+        <td style="border:1px solid #999;padding:5px 10px;background:#f5f5f5;font-weight:700;text-align:center">الحصة</td>
+        <td style="border:1px solid #999;padding:5px 10px;text-align:center">${ex.day}</td>
+      </tr>
+    </table>`;
+
+  // Room grid like image 2
+  const roomGrid=`
+    <h3 style="color:${col};margin:12px 0 8px;font-size:14px">🏛️ توزيع الحراسة</h3>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px">
+      ${rooms.map(r=>`
+        <div style="border:2px solid #222;border-radius:4px;overflow:hidden">
+          <div style="background:${col};color:#fff;text-align:center;padding:6px;font-weight:700;font-size:12px">${r.room}</div>
+          <div style="padding:8px;text-align:center;font-size:11px;line-height:2;min-height:50px">
+            ${r.supervisor?`<div style="font-size:10px;color:#888">👁️ ${r.supervisor}</div>`:''}
+            ${r.guards.map(g=>g.name).join('<br>')||'—'}
+          </div>
+        </div>`).join('')}
+    </div>`;
+
+  // Reserve like image 1
+  const half=Math.ceil(res.length/2);
+  const col1=res.slice(0,half), col2=res.slice(half);
+  const reserveTable=res.length?`
+    <h3 style="text-align:center;font-size:20px;font-family:'Amiri',serif;color:${col};margin:16px 0;letter-spacing:2px">الإحـتـيـاط</h3>
+    <div style="display:flex;gap:20px">
+      <table style="flex:1;border-collapse:collapse;font-size:12px">
+        <thead><tr><th style="border:1px solid #999;padding:6px;background:#f0f0f0;text-align:center">ر.ت</th><th style="border:1px solid #999;padding:6px;background:#f0f0f0">الأستاذة</th></tr></thead>
+        <tbody>${col1.map((n,i)=>`<tr><td style="border:1px solid #ddd;padding:6px;text-align:center">${i+1}</td><td style="border:1px solid #ddd;padding:6px 10px">${n}</td></tr>`).join('')}
+        ${Array(Math.max(0,4-col1.length)).fill('<tr><td style="border:1px solid #ddd;padding:6px">&nbsp;</td><td style="border:1px solid #ddd;padding:6px">&nbsp;</td></tr>').join('')}</tbody>
+      </table>
+      <table style="flex:1;border-collapse:collapse;font-size:12px">
+        <thead><tr><th style="border:1px solid #999;padding:6px;background:#f0f0f0;text-align:center">ر.ت</th><th style="border:1px solid #999;padding:6px;background:#f0f0f0">الأستاذة</th></tr></thead>
+        <tbody>${col2.map((n,i)=>`<tr><td style="border:1px solid #ddd;padding:6px;text-align:center">${i+half+1}</td><td style="border:1px solid #ddd;padding:6px 10px">${n}</td></tr>`).join('')}
+        ${Array(Math.max(0,4-col2.length)).fill('<tr><td style="border:1px solid #ddd;padding:6px">&nbsp;</td><td style="border:1px solid #ddd;padding:6px">&nbsp;</td></tr>').join('')}</tbody>
+      </table>
+    </div>`:'';
+
+  return `<div style="padding:18px;direction:rtl;font-family:'Cairo',sans-serif">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;padding-bottom:10px;border-bottom:2px solid ${col}">
+      <div style="font-size:11px;line-height:1.9"><div style="font-weight:700">${acad}</div><div>المديرية: ${prov}</div><div>المركز: ${school}</div></div>
+      <div style="text-align:center"><div style="font-weight:700;font-size:14px;color:${col}">${school}</div><div style="font-size:11px;color:#666">${sess}</div></div>
+      <div style="font-size:11px;line-height:1.9;text-align:left"><div>المملكة المغربية</div><div>وزارة التربية الوطنية</div></div>
+    </div>
+    ${headerBar}${roomGrid}${reserveTable}
+  </div>`;
+}
+
+// ════════════════════════════════════════════════
+// RESERVE (Tab 7)
+// ════════════════════════════════════════════════
+function buildAllReserves(){
+  const rCount=parseInt(v('cfgRes'))||6;
+  exams.forEach(ex=>{
+    if(!distrib[ex.id]) return;
+    const usedNames=new Set();
+    distrib[ex.id].rooms.forEach(r=>r.guards.forEach(g=>usedNames.add(g.name)));
+    const pool=teachers.filter(t=>{
+      if(t.type==='معفى') return false;
+      if(ex.type==='nat'&&t.type==='جهوي') return false;
+      if(ex.type==='reg'&&t.type==='وطني') return false;
+      return !usedNames.has(t.name);
+    }).sort((a,b)=>(a.sN+a.sR)-(b.sN+b.sR));
+    distrib[ex.id].reserve=pool.slice(0,rCount).map(t=>t.name);
+  });
+  renderResPage(); fillResSel(); markDirty();
+  alert2('alertD','✅ تم توليد قوائم الاحتياط','al-ok');
+}
+
+function fillResSel(){
+  const sel=$('resSel');
+  const cur=sel.value;
+  sel.innerHTML='<option value="">— اختر حصة —</option>';
+  exams.filter(ex=>distrib[ex.id]).forEach(ex=>{
+    sel.innerHTML+=`<option value="${ex.id}">${ex.type==='nat'?'🇲🇦':'🏙️'} ${ex.day} | ${ex.period} | ${ex.subj}</option>`;
+  });
+  sel.value=cur;
+}
+
+function renderResPage(){
+  const id=v('resSel');
+  const el=$('resContent');
+  if(!id||!distrib[id]){
+    el.innerHTML='<div class="card" style="text-align:center;color:var(--gray);padding:20px">اختر حصة أو اضغط "توليد تلقائي"</div>';
+    return;
+  }
+  const ex=exams.find(e=>e.id==id);
+  const res=distrib[id].reserve||[];
+  const half=Math.ceil(res.length/2);
+  const col1=res.slice(0,half), col2=res.slice(half);
+  const col=ex.type==='reg'?'var(--blue-mid)':'var(--green)';
+
+  el.innerHTML=`<div class="card">
+    <div class="fr ct" style="color:${col}">
+      🔴 احتياط — ${ex.day} | ${ex.period} (${ex.from}—${ex.to}) | ${ex.subj}
+      <span class="sp"></span>
+      <button class="btn bg sm" onclick="addReserve('${id}')">➕ إضافة</button>
+    </div>
+    <div style="display:flex;gap:16px">
+      <div class="tw" style="flex:1"><table>
+        <thead><tr><th style="text-align:center">ر.ت</th><th>الأستاذة</th><th>إجراء</th></tr></thead>
+        <tbody>${col1.map((n,i)=>`<tr><td style="text-align:center">${i+1}</td>
+          <td><span contenteditable="true" onblur="distrib['${id}'].reserve[${i}]=this.innerText.trim();markDirty()" style="outline:none;display:block">${n}</span></td>
+          <td><button class="btn bred sm" onclick="removeRes('${id}',${i})">🗑️</button></td></tr>`).join('')}</tbody>
+      </table></div>
+      <div class="tw" style="flex:1"><table>
+        <thead><tr><th style="text-align:center">ر.ت</th><th>الأستاذة</th><th>إجراء</th></tr></thead>
+        <tbody>${col2.map((n,i)=>`<tr><td style="text-align:center">${i+half+1}</td>
+          <td><span contenteditable="true" onblur="distrib['${id}'].reserve[${i+half}]=this.innerText.trim();markDirty()" style="outline:none;display:block">${n}</span></td>
+          <td><button class="btn bred sm" onclick="removeRes('${id}',${i+half})">🗑️</button></td></tr>`).join('')}</tbody>
+      </table></div>
+    </div>
+  </div>`;
+}
+
+function addReserve(id){const n=prompt('اسم الأستاذ:');if(!n)return;if(!distrib[id].reserve)distrib[id].reserve=[];distrib[id].reserve.push(n.trim());renderResPage();markDirty();}
+function removeRes(id,idx){distrib[id].reserve.splice(idx,1);renderResPage();markDirty();}
+
+function printResSel(){
+  const id=v('resSel');if(!id||!distrib[id]){alert('اختر حصة');return;}
+  const ex=exams.find(e=>e.id==id);
+  pHTML(buildResHTML(ex,distrib[id].reserve||[]));
+}
+
+function printAllRes(){
+  const pages=exams.filter(ex=>distrib[ex.id]&&(distrib[ex.id].reserve||[]).length>0);
+  if(!pages.length){alert('لا توجد بيانات احتياط');return;}
+  pHTML(pages.map((ex,i)=>buildResHTML(ex,distrib[ex.id].reserve||[])+(i<pages.length-1?'<div style="page-break-after:always"></div>':'')).join(''));
+}
+
+function buildResHTML(ex,res){
+  const school=v('cfgSchool'),acad=v('cfgAcad'),prov=v('cfgProv'),sess=v('cfgSess');
+  const col=ex.type==='reg'?'#1a3a5c':'#1a4731';
+  const half=Math.ceil(res.length/2);
+  const col1=res.slice(0,half),col2=res.slice(half);
+  return `<div style="padding:20px;direction:rtl;font-family:'Cairo',sans-serif">
+    <div style="display:flex;justify-content:space-between;margin-bottom:12px;padding-bottom:10px;border-bottom:2px solid ${col}">
+      <div style="font-size:11px;line-height:1.9"><div style="font-weight:700">${acad}</div><div>المديرية: ${prov}</div><div>المركز: ${school}</div></div>
+      <div style="font-size:11px;line-height:1.9;text-align:left"><div>المملكة المغربية</div><div>وزارة التربية الوطنية</div><div>${sess}</div></div>
+    </div>
+    <table style="width:100%;border-collapse:collapse;margin-bottom:14px;font-size:12px">
+      <tr>
+        <td style="border:1px solid #999;padding:5px 10px;background:#f5f5f5;font-weight:700;text-align:center">التاريخ</td>
+        <td style="border:1px solid #999;padding:5px 10px;text-align:center">${fmtDate(ex.date)}</td>
+        <td style="border:1px solid #999;padding:5px 10px;background:#f5f5f5;font-weight:700;text-align:center">الفترة</td>
+        <td style="border:1px solid #999;padding:5px 10px;text-align:center">${ex.period==='صباحية'?'الزوالية':'الصباحية'}</td>
+        <td style="border:1px solid #999;padding:5px 10px;background:#f5f5f5;font-weight:700;text-align:center">الحصة</td>
+        <td style="border:1px solid #999;padding:5px 10px;text-align:center">${ex.from}—${ex.to}</td>
+        <td style="border:1px solid #999;padding:5px 10px;background:#f5f5f5;font-weight:700;text-align:center">الأولى/الثانية</td>
+      </tr>
+    </table>
+    <h2 style="text-align:center;font-size:24px;font-family:'Amiri',serif;color:${col};margin:16px 0;letter-spacing:3px">الإحـتـيـاط</h2>
+    <div style="display:flex;gap:20px;margin-top:14px">
+      <table style="flex:1;border-collapse:collapse;font-size:12px">
+        <thead><tr><th style="border:1px solid #999;padding:6px;background:#f0f0f0;text-align:center">ر.ت</th><th style="border:1px solid #999;padding:6px;background:#f0f0f0">الأستاذة</th></tr></thead>
+        <tbody>${col1.map((n,i)=>`<tr><td style="border:1px solid #ddd;padding:7px 10px;text-align:center">${i+1}</td><td style="border:1px solid #ddd;padding:7px 12px">${n}</td></tr>`).join('')}
+        ${Array(Math.max(0,6-col1.length)).fill('<tr><td style="border:1px solid #ddd;padding:7px">&nbsp;</td><td style="border:1px solid #ddd;padding:7px">&nbsp;</td></tr>').join('')}</tbody>
+      </table>
+      <table style="flex:1;border-collapse:collapse;font-size:12px">
+        <thead><tr><th style="border:1px solid #999;padding:6px;background:#f0f0f0;text-align:center">ر.ت</th><th style="border:1px solid #999;padding:6px;background:#f0f0f0">الأستاذة</th></tr></thead>
+        <tbody>${col2.map((n,i)=>`<tr><td style="border:1px solid #ddd;padding:7px 10px;text-align:center">${i+half+1}</td><td style="border:1px solid #ddd;padding:7px 12px">${n}</td></tr>`).join('')}
+        ${Array(Math.max(0,6-col2.length)).fill('<tr><td style="border:1px solid #ddd;padding:7px">&nbsp;</td><td style="border:1px solid #ddd;padding:7px">&nbsp;</td></tr>').join('')}</tbody>
+      </table>
+    </div>
+  </div>`;
+}
+
+// ════════════════════════════════════════════════
+// INVITATIONS (Tab 8)
+// ════════════════════════════════════════════════
+function fillInvSel(){
+  const sel=$('invSel');const cur=sel.value;
+  sel.innerHTML='<option value="">— كل الأساتذة —</option>';
+  teachers.filter(t=>t.type!=='معفى').forEach(t=>{sel.innerHTML+=`<option value="${t.id}">${t.name} (${t.subj})</option>`;});
+  sel.value=cur; previewInv();
+}
+
+function previewInv(){
+  const sid=v('invSel');
+  const list=sid?teachers.filter(t=>String(t.id)==sid):teachers.filter(t=>t.type!=='معفى');
+  const prev=$('invPrev');
+  if(!list.length){prev.innerHTML='<div class="card" style="color:var(--gray);text-align:center;padding:16px">لا يوجد أساتذة</div>';return;}
+  prev.innerHTML=buildInv(list[0],false);
+  if(list.length>1) prev.innerHTML+=`<div class="alert al-info mt1">معاينة أول استدعاء — ${list.length} استدعاء سيتم طباعتهم</div>`;
+}
+
+function buildInv(t,forPrint=false){
+  const school=v('cfgSchool'),city=v('cfgCity'),dir=v('cfgDir');
+  const acad=v('cfgAcad'),prov=v('cfgProv'),sess=v('cfgSess');
+  const invNum=v('cfgInvNum')||'108';
+  const invDate=v('cfgInvDate')||new Date().toLocaleDateString('ar-MA');
+  const subject=v('cfgInvSubject');
+  const ref=v('cfgInvRef')||'القرار الوزاري بشأن دفتر مساطر امتحانات البكالوريا';
+  const body=v('cfgInvBody'),foot=v('cfgInvFoot'),note=v('cfgInvNote');
+  const extraNote=v('invExNote');
+
+  // ── Collect assignments ──
+  const assignments=[];
+  exams.forEach(ex=>{
+    if(!distrib[ex.id]) return;
+    distrib[ex.id].rooms.forEach(r=>{
+      if(r.guards.some(g=>g.name===t.name)){
+        // session number within same date+period
+        assignments.push({date:ex.date,from:ex.from,to:ex.to,
+          period:ex.period,room:r.room,subj:ex.subj,type:ex.type});
+      }
+    });
+    // check reserve
+    if((distrib[ex.id].reserve||[]).includes(t.name)){
+      assignments.push({date:ex.date,from:ex.from,to:ex.to,
+        period:ex.period,room:'احتياط',subj:ex.subj,type:ex.type});
+    }
+  });
+
+  // ── Table rows — styled exactly like image 1 ──
+  const tdS='border:1px solid #aaa;padding:6px 10px;text-align:center;font-size:12px';
+  const thS='border:1px solid #aaa;padding:6px 8px;text-align:center;font-size:11px;font-weight:700;background:#f0f0f0';
+
+  const tableRows=assignments.map((a,i)=>`<tr>
+    <td style="${tdS}">${fmtDate(a.date)}</td>
+    <td style="${tdS}">${a.from}</td>
+    <td style="${tdS}">${a.period==='صباحية'?'الصباحية':'المسائية'}</td>
+    <td style="${tdS}">${a.room==='احتياط'?'<strong style="color:#c0392b">احتياط</strong>':a.room}</td>
+    <td style="${tdS}">${a.from==='08:00'||a.from==='08:30'?'الأولى':'الثانية'}</td>
+  </tr>`).join('');
+
+  // ── Official header (3-column like image 1) ──
+  const officialHeader=`
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px">
+    <div style="font-size:10.5px;line-height:2;text-align:right;direction:rtl">
+      <div style="font-weight:700">المملكة المغربية</div>
+      <div>وزارة التربية الوطنية</div>
+      <div>والتعليم الأولي والرياضة</div>
+      <div style="margin-top:4px;font-weight:700">${acad}</div>
+      <div>المديرية الإقليمية: ${prov}</div>
+    </div>
+    <div style="text-align:center;padding:0 10px">
+      <div style="width:70px;height:70px;border:3px solid #1a4731;border-radius:50%;margin:0 auto 4px;display:flex;align-items:center;justify-content:center;font-size:9px;color:#1a4731;font-weight:700">شعار<br>الوزارة</div>
+      <div style="font-size:9px;color:#666">الرمز الوطني</div>
+    </div>
+    <div style="font-size:10.5px;line-height:2;text-align:left;direction:ltr">
+      <div style="font-weight:700">المملكة المغربية</div>
+      <div>وزارة التربية الوطنية</div>
+      <div>والتكوين المهني</div>
+      <div style="margin-top:4px">${sess}</div>
+    </div>
+  </div>
+  <div style="border-top:3px double #1a4731;border-bottom:1px solid #1a4731;padding:6px 0;margin-bottom:12px;text-align:center">
+    <strong style="font-size:13px;color:#1a4731">${school}</strong>
+  </div>`;
+
+  // ── Number & Date bar ──
+  const numBar=`
+  <div style="display:flex;justify-content:space-between;margin-bottom:14px;font-size:12px">
+    <div>الرقم: <strong>${invNum}</strong></div>
+    <div>${city}، في: <strong>${invDate}</strong></div>
+  </div>`;
+
+  // ── Addressee block ──
+  const addressee=`
+  <div style="margin-bottom:14px;font-size:13px;direction:rtl">
+    <div style="margin-bottom:4px"><strong>المدير الإقليمي</strong></div>
+    <div>إلى السيد(ة): <u style="font-weight:700;font-size:14px"> ${t.name} </u>
+    &nbsp; رث: <strong>${t.mat||'................'}</strong></div>
+    <div style="margin-top:4px">تحت إشراف السيد مدير الثانوية: <strong>${school}</strong></div>
+  </div>`;
+
+  // ── Subject & Ref ──
+  const subjectRef=`
+  <table style="width:100%;border-collapse:collapse;margin-bottom:12px;font-size:12px">
+    <tr>
+      <td style="padding:4px 8px;font-weight:700;white-space:nowrap;width:80px">الموضوع:</td>
+      <td style="padding:4px 8px">${subject}</td>
+    </tr>
+    <tr>
+      <td style="padding:4px 8px;font-weight:700;white-space:nowrap">المـرجـع:</td>
+      <td style="padding:4px 8px">${ref}</td>
+    </tr>
+  </table>
+  <div style="border-right:3px solid #1a4731;padding-right:10px;margin-bottom:12px;font-size:12px;line-height:1.9">${body}</div>`;
+
+  // ── Schedule table — exactly like image 1 ──
+  const schedTable=assignments.length?`
+  <table style="width:100%;border-collapse:collapse;margin:10px 0;font-size:12px">
+    <thead>
+      <tr style="background:#e8e8e8">
+        <th style="${thS}">القاعة</th>
+        <th style="${thS}">بعد الزوال على الساعة</th>
+        <th style="${thS}">الفترة</th>
+        <th style="${thS}">صباحا على الساعة</th>
+        <th style="${thS}">التاريخ</th>
+      </tr>
+    </thead>
+    <tbody>${tableRows}</tbody>
+  </table>`
+  :`<p style="color:#aaa;font-style:italic;font-size:12px;text-align:center">لم يتم التوزيع بعد</p>`;
+
+  // ── Footer ──
+  const footerBlock=`
+  <div style="margin-top:14px;font-size:12px;line-height:2">${foot}</div>
+  ${note?`<div style="margin-top:10px;padding:8px 12px;background:#f9f9f9;border:1px solid #ddd;border-radius:4px;font-size:11px">
+    <div><strong>ملاحظة:</strong> ${note}</div>
+    ${extraNote?`<div>${extraNote}</div>`:''}
+  </div>`:''}
+  <div style="margin-top:28px;display:flex;justify-content:space-between;align-items:flex-start">
+    <div style="text-align:center;font-size:12px">
+      <div>توقيع الأستاذ(ة) واسمه</div>
+      <div style="margin-top:40px;border-bottom:1px solid #999;width:140px"></div>
+    </div>
+    <div style="text-align:center;font-size:12px">
+      <div style="font-weight:700">المدير الإقليمي</div>
+      <div style="color:#666;font-size:11px">(التوقيع والختم)</div>
+      <div style="font-weight:700;margin-top:4px">${dir||''}</div>
+      <div style="width:80px;height:80px;border:2px dashed #d4af37;border-radius:50%;margin:6px auto;display:flex;align-items:center;justify-content:center;font-size:9px;color:#aaa;text-align:center">ختم<br>المديرية</div>
+    </div>
+  </div>`;
+
+  const wrap=forPrint
+    ?'style="padding:22px;margin-bottom:30px;page-break-after:always;direction:rtl;font-family:Cairo,sans-serif;max-width:800px;margin-left:auto;margin-right:auto"'
+    :'class="conv-wrap"';
+
+  return `<div ${wrap}>
+    ${officialHeader}${numBar}${addressee}${subjectRef}${schedTable}${footerBlock}
+  </div>`;
+}
+
+function printAllInv(){
+  const list=teachers.filter(t=>t.type!=='معفى');
+  if(!list.length){alert('لا يوجد أساتذة');return;}
+  pHTML(`<style>body{font-family:'Cairo',sans-serif;direction:rtl}</style>${list.map(t=>buildInv(t,true)).join('')}`);
+}
+
+function printOneInv(){
+  const sid=v('invSel');
+  const t=sid?teachers.find(t=>String(t.id)==sid):teachers.find(t=>t.type!=='معفى');
+  if(!t){alert('اختر أستاذاً');return;}
+  pHTML(`<style>body{font-family:'Cairo',sans-serif;direction:rtl}</style>${buildInv(t,true)}`);
+}
+
+// ════════════════════════════════════════════════
+// DASHBOARD
+// ════════════════════════════════════════════════
+function updateDash(){
+  $('dashT').textContent=teachers.length;
+  $('dashR').textContent=natRooms.length+regRooms.length;
+  $('dashE').textContent=exams.length;
+  $('dashD').textContent=Object.keys(distrib).length;
+  const distCount=Object.keys(distrib).length;
+  if(distCount>0){
+    $('dashStatus').innerHTML=`<div class="alert al-ok">✅ ${distCount} حصة موزعة من ${exams.length} | ${teachers.length} أستاذ</div>`;
+  } else if(exams.length>0){
+    $('dashStatus').innerHTML=`<div class="alert al-warn">⚠️ لم يتم التوزيع بعد — اضغط "توزيع تلقائي شامل"</div>`;
+  }
+}
+
+function renderAll(){
+  renderTeachers(); renderRooms(); renderExams(); renderDistResult();
+  fillSessPageSel(); fillResSel(); fillInvSel(); updateDash();
+  if($('t9').classList.contains('on')) buildRoomsTable();
+}
+
+// ════════════════════════════════════════════════
+// ROOMS × DAYS TABLE (like image 2)
+// ════════════════════════════════════════════════
+function buildRoomsTable(){
+  const el=$('roomsTableContent');
+  const allRooms=[...natRooms,...regRooms];
+  if(!allRooms.length){el.innerHTML='<div class="card" style="text-align:center;color:var(--gray);padding:20px">أضف القاعات أولاً</div>';return;}
+  if(!exams.length){el.innerHTML='<div class="card" style="text-align:center;color:var(--gray);padding:20px">أضف برنامج الامتحانات أولاً</div>';return;}
+
+  // Group exams by date
+  const dates=[...new Set(exams.map(e=>e.date))].sort();
+  
+  // Build header: date → [morning sessions, afternoon sessions]
+  const thStyle='border:1px solid #999;padding:6px 8px;text-align:center;font-size:11px;font-weight:700;background:#ffd700;color:#1a4731;white-space:nowrap';
+  const thGreen='border:1px solid #999;padding:6px 8px;text-align:center;font-size:11px;font-weight:700;background:#1a4731;color:#fff;white-space:nowrap';
+  const tdStyle='border:1px solid #ddd;padding:5px 8px;text-align:center;font-size:11px;vertical-align:middle';
+  const tdOdd='border:1px solid #ddd;padding:5px 8px;text-align:center;font-size:11px;background:#f9f9f9;vertical-align:middle';
+
+  // Build column structure
+  const cols=[];
+  dates.forEach(date=>{
+    const dayExams=exams.filter(e=>e.date===date);
+    const morning=dayExams.filter(e=>e.period==='صباحية').sort((a,b)=>a.from.localeCompare(b.from));
+    const afternoon=dayExams.filter(e=>e.period==='مسائية').sort((a,b)=>a.from.localeCompare(b.from));
+    if(morning.length) morning.forEach(e=>cols.push({date,period:'صباحية',exam:e}));
+    if(afternoon.length) afternoon.forEach(e=>cols.push({date,period:'مسائية',exam:e}));
+    if(!morning.length) cols.push({date,period:'صباحية',exam:null});
+    if(!afternoon.length) cols.push({date,period:'مسائية',exam:null});
+  });
+
+  // Remove duplicate date+period when multiple exams same period
+  const uniqueDates=[...new Set(dates)];
+  
+  let html='<div style="overflow-x:auto"><table style="border-collapse:collapse;min-width:100%;font-size:11px">';
+  
+  // Row 1: Dates (merged cols)
+  html+='<thead><tr><th style="'+thGreen+';width:90px">القاعة</th>';
+  uniqueDates.forEach(date=>{
+    const cnt=cols.filter(c=>c.date===date).length;
+    html+=`<th style="${thStyle}" colspan="${cnt}">${fmtDate(date)}</th>`;
+  });
+  html+='</tr>';
+  
+  // Row 2: Morning/Afternoon
+  html+='<tr><th style="'+thGreen+'">القاعة</th>';
+  cols.forEach(col=>{
+    const bg=col.period==='صباحية'?'background:#fff3cd':'background:#d4edda';
+    html+=`<th style="border:1px solid #999;padding:5px;text-align:center;font-size:10px;font-weight:700;${bg};color:#333">${col.period==='صباحية'?'الفترة الصباحية':'الفترة الزوالية'}</th>`;
+  });
+  html+='</tr>';
+  
+  // Row 3: Session times
+  html+='<tr><th style="'+thGreen+'">الحصة</th>';
+  cols.forEach(col=>{
+    const time=col.exam?`${col.exam.from}—${col.exam.to}`:'—';
+    html+=`<th style="border:1px solid #999;padding:4px;text-align:center;font-size:10px;background:#f0f0f0;color:#555">${time}</th>`;
+  });
+  html+='</tr></thead><tbody>';
+  
+  // Data rows: one per room
+  allRooms.forEach((room,ri)=>{
+    const isEven=ri%2===0;
+    html+=`<tr><td style="${isEven?tdStyle:tdOdd};font-weight:700;background:#1a4731;color:#fff;text-align:center">${room.name}</td>`;
+    cols.forEach(col=>{
+      let cell='—';
+      let cellStyle=tdStyle;
+      if(col.exam && distrib[col.exam.id]){
+        const roomData=distrib[col.exam.id].rooms.find(r=>r.room===room.name);
+        if(roomData){
+          const guards=roomData.guards.map(g=>g.name);
+          const sup=roomData.supervisor;
+          cell=guards.join(' / ')+(sup?`<br><small style="color:#7b1fa2">👁️ ${sup}</small>`:'');
+          cellStyle=tdStyle+';background:#e8f5e9';
+        }
+      }
+      html+=`<td style="${cellStyle}">${cell}</td>`;
+    });
+    html+='</tr>';
+  });
+  
+  html+='</tbody></table></div>';
+  
+  // Legend
+  html+=`<div style="margin-top:10px;font-size:11px;color:#666;display:flex;gap:16px;flex-wrap:wrap">
+    <span>🟩 قاعة موزعة</span>
+    <span>👁️ المداوم بالبنفسجي</span>
+    <span>— لا يوجد امتحان في هذه الفترة</span>
+  </div>`;
+  
+  el.innerHTML='<div class="card">'+html+'</div>';
+}
+
+function printRoomsTable(){
+  const allRooms=[...natRooms,...regRooms];
+  if(!allRooms.length){alert('أضف القاعات أولاً');return;}
+  const school=v('cfgSchool'),sess=v('cfgSess');
+  const dates=[...new Set(exams.map(e=>e.date))].sort();
+  const cols=[];
+  dates.forEach(date=>{
+    const dayExams=exams.filter(e=>e.date===date);
+    ['صباحية','مسائية'].forEach(period=>{
+      const pExams=dayExams.filter(e=>e.period===period).sort((a,b)=>a.from.localeCompare(b.from));
+      if(pExams.length) pExams.forEach(e=>cols.push({date,period,exam:e}));
+      else cols.push({date,period,exam:null});
+    });
+  });
+  const uniqueDates=[...new Set(dates)];
+  
+  let html=`<style>
+    body{font-family:'Cairo',sans-serif;direction:rtl;font-size:10px}
+    table{border-collapse:collapse;width:100%}
+    th,td{border:1px solid #999;padding:5px 6px;text-align:center}
+    .rh{background:#1a4731;color:#fff;font-weight:700}
+    .dh{background:#ffd700;color:#1a4731;font-weight:700}
+    .mh{background:#fff3cd;color:#333;font-size:9px}
+    .ah{background:#d4edda;color:#333;font-size:9px}
+    .filled{background:#e8f5e9}
+    h2{text-align:center;color:#1a4731;margin-bottom:6px;font-size:14px}
+    p{text-align:center;font-size:11px;color:#555;margin-bottom:8px}
+    @page{margin:8mm;size:landscape}
+  </style>
+  <h2>${school}</h2><p>${sess} — جدول القاعات × الأيام</p>
+  <table>
+    <thead>
+      <tr><th class="rh">القاعة</th>`;
+  
+  uniqueDates.forEach(date=>{
+    const cnt=cols.filter(c=>c.date===date).length;
+    html+=`<th class="dh" colspan="${cnt}">${fmtDate(date)}</th>`;
+  });
+  html+=`</tr><tr><th class="rh">الحصة</th>`;
+  cols.forEach(col=>{
+    html+=`<th class="${col.period==='صباحية'?'mh':'ah'}">${col.period==='صباحية'?'ص':'م'}<br>${col.exam?col.exam.from+'—'+col.exam.to:'—'}</th>`;
+  });
+  html+=`</tr></thead><tbody>`;
+  
+  allRooms.forEach((room,ri)=>{
+    html+=`<tr><td class="rh">${room.name}</td>`;
+    cols.forEach(col=>{
+      let cell='';
+      let extra='';
+      if(col.exam && distrib[col.exam.id]){
+        const rd=distrib[col.exam.id].rooms.find(r=>r.room===room.name);
+        if(rd){cell=rd.guards.map(g=>g.name).join(' / ');extra=' class="filled"';}
+      }
+      html+=`<td${extra}>${cell||'—'}</td>`;
+    });
+    html+=`</tr>`;
+  });
+  html+=`</tbody></table>`;
+  pHTML(html);
+}
+
+function exportRoomsTableCSV(){
+  const allRooms=[...natRooms,...regRooms];
+  const dates=[...new Set(exams.map(e=>e.date))].sort();
+  const cols=[];
+  dates.forEach(date=>{
+    ['صباحية','مسائية'].forEach(period=>{
+      const pExams=exams.filter(e=>e.date===date&&e.period===period);
+      if(pExams.length) pExams.forEach(e=>cols.push({date,period,exam:e}));
+      else cols.push({date,period,exam:null});
+    });
+  });
+  const header=['القاعة',...cols.map(c=>`${fmtDate(c.date)} ${c.period==='صباحية'?'ص':'م'}`)];
+  const rows=[header];
+  allRooms.forEach(room=>{
+    const row=[room.name];
+    cols.forEach(col=>{
+      if(col.exam && distrib[col.exam.id]){
+        const rd=distrib[col.exam.id].rooms.find(r=>r.room===room.name);
+        row.push(rd?rd.guards.map(g=>g.name).join(' / '):'');
+      } else row.push('');
+    });
+    rows.push(row);
+  });
+  dlCSV(rows,'جدول-القاعات.csv');
+}
+
+// Auto-save on unload
+window.addEventListener('beforeunload',()=>{if(isDirty) saveAll();});
+
+// ════════════════════════════════════════════════
+// INIT
+// ════════════════════════════════════════════════
+(function init(){
+  const loaded=loadSaved();
+  if(!loaded){
+    loadDefaultProgram();
+  }
+  renderAll();
+  if(loaded) setTimeout(()=>alert2('alertSave','✅ تم استعادة البيانات المحفوظة','al-save'),500);
+  // add alertSave div dynamically
+  const alertDiv=document.createElement('div');
+  alertDiv.id='alertSave';
+  alertDiv.style.cssText='position:fixed;bottom:20px;left:20px;z-index:999;min-width:260px';
+  document.body.appendChild(alertDiv);
+})();
+</script>
+</body>
+</html>
